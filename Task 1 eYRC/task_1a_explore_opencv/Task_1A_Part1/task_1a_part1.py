@@ -47,13 +47,14 @@ shapes = {}
 ## readable and easy to understand.                         ##
 ##############################################################
 
+# update_dictionary() adds key-value pair for each detected object in the dictionary: shapes
 def update_dictionary(shape_name, shape_color, shape_area, centroid_x, centroid_y):
     global shapes
 
     arr = [shape_color, shape_area, centroid_x, centroid_y]
     shapes.update({shape_name: arr})
 
-
+# detect_shape_color() returns the color of detected shape
 def detect_shape_color(original_img, centroid_x, centroid_y):
     if original_img[centroid_y, centroid_x, 2] == np.array([0, 0, 255], dtype=np.uint8)[2]:
         return 'red'
@@ -62,12 +63,12 @@ def detect_shape_color(original_img, centroid_x, centroid_y):
     else:
         return 'green'
 
-
+# line_length() returns the length of side of quadrilateral
 def line_length(x1, y1, x2, y2):
     length = ((x1-x2)**2 + (y1-y2)**2)**0.5
     return length
 
-
+# find_quadrilateral_type() return the type of quadrilateral like sqaure, rhombus etc.
 def find_quadrilateral_type(approx):
     coords = approx.ravel()
     x = np.array([coords[0], coords[2], coords[4], coords[6]])
@@ -75,26 +76,34 @@ def find_quadrilateral_type(approx):
 
     adjacent_sides_ratio = line_length(
         x[0], y[0], x[1], y[1])/line_length(x[1], y[1], x[2], y[2])
-
     diagnol_ratio = line_length(
         x[0], y[0], x[2], y[2])/line_length(x[1], y[1], x[3], y[3])
-
     opposite_sides_ratio = line_length(
         x[0], y[0], x[1], y[1])/line_length(x[2], y[2], x[3], y[3])
 
-    if opposite_sides_ratio >= 0.95 and opposite_sides_ratio <= 1.05:
-        if adjacent_sides_ratio >= 0.95 and adjacent_sides_ratio <= 1.05:
-            if diagnol_ratio >= 0.95 and diagnol_ratio <= 1.05:
-                return 'Square'
+    slope1 = (y[1] - y[0]) / (x[1] - x[0]) if x[1] != x[0] else 1
+    slope2 = (y[2] - y[1]) / (x[2] - x[1]) if x[1] != x[2] else 1
+    slope3 = (y[3] - y[2]) / (x[3] - x[2]) if x[3] != x[2] else 1
+    slope4 = (y[0] - y[3]) / (x[0] - x[3]) if x[3] != x[0] else 1
+
+    slope_ratio1 = slope1 / slope3
+    slope_ratio2 = slope2 / slope4
+
+    if (slope_ratio1 >= 0.95 and slope_ratio1 <= 1.05) or (slope_ratio2 >= 0.95 and slope_ratio2 <= 1.05):
+        if opposite_sides_ratio >= 0.95 and opposite_sides_ratio <= 1.05:
+            if adjacent_sides_ratio >= 0.95 and adjacent_sides_ratio <= 1.05:
+                if diagnol_ratio >= 0.95 and diagnol_ratio <= 1.05:
+                    return 'Square'
+                else:
+                    return 'Rhombus'
             else:
-                return 'Rhombus'
+                return 'Parallelogram'
         else:
-            return 'Parallelogram'
+            return 'Trapezium'
     else:
         return 'Quadrilateral'
 
 ##############################################################
-
 
 def scan_image(img_file_path):
     """
@@ -131,7 +140,7 @@ def scan_image(img_file_path):
     _, threshold = cv2.threshold(grayscale_img, 240, 255, cv2.THRESH_BINARY)
 
     contours, hierarchy = cv2.findContours(
-        threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+        threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     height, width, channel = original_img.shape
 
