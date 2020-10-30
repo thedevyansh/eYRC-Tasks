@@ -76,7 +76,7 @@ def find_quadrilateral_type(approx):
 
     adjacent_sides_ratio = line_length(
         x[0], y[0], x[1], y[1])/line_length(x[1], y[1], x[2], y[2])
-    diagnol_ratio = line_length(
+    diagonal_ratio = line_length(
         x[0], y[0], x[2], y[2])/line_length(x[1], y[1], x[3], y[3])
     opposite_sides_ratio = line_length(
         x[0], y[0], x[1], y[1])/line_length(x[2], y[2], x[3], y[3])
@@ -92,7 +92,7 @@ def find_quadrilateral_type(approx):
     if (slope_ratio1 >= 0.95 and slope_ratio1 <= 1.05) or (slope_ratio2 >= 0.95 and slope_ratio2 <= 1.05):
         if opposite_sides_ratio >= 0.95 and opposite_sides_ratio <= 1.05:
             if adjacent_sides_ratio >= 0.95 and adjacent_sides_ratio <= 1.05:
-                if diagnol_ratio >= 0.95 and diagnol_ratio <= 1.05:
+                if diagonal_ratio >= 0.95 and diagonal_ratio <= 1.05:
                     return 'Square'
                 else:
                     return 'Rhombus'
@@ -146,7 +146,7 @@ def scan_image(img_file_path):
 
     for cnt in contours:
 
-        if cv2.contourArea(cnt) > (0.995 * width * height):
+        if cv2.contourArea(cnt) > (0.995 * width * height): #this is used to exclude parent element from being considered as a contour
             continue
 
         epsilon = 0.01 * cv2.arcLength(cnt, True)
