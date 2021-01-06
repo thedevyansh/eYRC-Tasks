@@ -17,8 +17,8 @@
 *****************************************************************************************
 '''
 
-# Team ID:          [ Team-ID ]
-# Author List:      [ Names of team members worked on this file separated by Comma: Name1, Name2, ... ]
+# Team ID:          NB_2650
+# Author List:      Hardik Sharma, Shikhhar Siingh
 # Filename:         task_4b.py
 # Functions:        calculate_path_from_maze_image, send_data_to_draw_path, 
 # 					convert_path_to_pixels, traverse_path
@@ -418,11 +418,8 @@ def convert_path_to_pixels(path):
 	
 	"""
 	##############	ADD YOUR CODE HERE	##############
-	pixel_path = []
-	for elem in path:
-    		pixel_path.append(path * 33.)
+	pixel_path= [tuple((((10*elem)-45)/100) for elem in coords) for coords in path]
 
-	
 	##################################################	
 	return pixel_path
 
@@ -452,7 +449,7 @@ def traverse_path(pixel_path):
 
 	"""
 	##############	ADD YOUR CODE HERE	##############
-
+	#task_3.control_logic(-0.429,-0.042)
 
 
 	##################################################
