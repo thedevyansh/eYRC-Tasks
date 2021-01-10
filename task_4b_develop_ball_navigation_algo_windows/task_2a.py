@@ -76,6 +76,7 @@ def init_remote_api_server():
 	---
 	This function should first close any open connections and then start
 	communication thread with server i.e. CoppeliaSim.
+
 	NOTE: In this Task, do not call the exit_remote_api_server function in case of failed connection to the server.
 	The test_task_2a executable script will handle that condition.
 	
@@ -101,7 +102,7 @@ def init_remote_api_server():
 	
 	sim.simxFinish(client_id)
 	client_id = sim.simxStart('127.0.0.1', 19997, True, True, 5000, 5)
-
+	#print(client_id)
 	##################################################
 
 	return client_id
@@ -115,6 +116,7 @@ def start_simulation():
 	This function should first start the simulation if the connection to server
 	i.e. CoppeliaSim was successful and then wait for last command sent to arrive
 	at CoppeliaSim server end.
+
 	NOTE: In this Task, do not call the exit_remote_api_server function in case of failed connection to the server.
 	The test_task_2a executable script will handle that condition.
 	
@@ -141,20 +143,21 @@ def start_simulation():
 	##############	ADD YOUR CODE HERE	##############
 	
 	sim.simxSynchronous(client_id, True)
-	return_code = sim.simxStartSimulation(client_id, sim.simx_opmode_oneshot)
+	return_code = sim.simxStartSimulation(client_id, sim.simx_opmode_streaming)
 
 	##################################################
 
 	return return_code
 
 
-def get_vision_sensor_image():
+def get_vision_sensor_image(vision_sensor_handle):
 	
 	"""
 	Purpose:
 	---
 	This function should first get the handle of the Vision Sensor object from the scene.
 	After that it should get the Vision Sensor's image array from the CoppeliaSim scene.
+
 	Input Arguments:
 	---
 	None
@@ -171,6 +174,7 @@ def get_vision_sensor_image():
 	Example call:
 	---
 	vision_sensor_image, image_resolution, return_code = get_vision_sensor_image()
+
 	NOTE: This function will be automatically called by test_task_2a executable at regular intervals.
 	"""
 
@@ -183,12 +187,8 @@ def get_vision_sensor_image():
 	##############	ADD YOUR CODE HERE	##############
 	
 	sim.simxSynchronousTrigger(client_id)
-	return_code, v_handle = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_oneshot_wait)
-#	print(v_handle)
-#	sim.simxSynchronousTrigger(client_id)
-	return_code, image_resolution, vision_sensor_image = sim.simxGetVisionSensorImage(client_id, v_handle, 0, sim.simx_opmode_oneshot_wait)
-#	print(return_code, image_resolution)
-
+	return_code, image_resolution, vision_sensor_image = sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 1, sim.simx_opmode_blocking)
+	
 	##################################################
 
 	return vision_sensor_image, image_resolution, return_code
@@ -231,11 +231,13 @@ def transform_vision_sensor_image(vision_sensor_image, image_resolution):
 	##############	ADD YOUR CODE HERE	##############
 	
 	img = np.array(vision_sensor_image, dtype = np.uint8)
+	
+	#print(image_resolution)
 	img.resize([image_resolution[0],image_resolution[1],3])
-	img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+
+	#img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 	img = cv2.flip(img, 0)
 	transformed_image = img
-
 	##################################################
 	
 	return transformed_image
@@ -247,6 +249,7 @@ def stop_simulation():
 	Purpose:
 	---
 	This function should stop the running simulation in CoppeliaSim server.
+
 	NOTE: In this Task, do not call the exit_remote_api_server function in case of failed connection to the server.
 	The test_task_2a executable script will handle that condition.
 	
@@ -269,7 +272,6 @@ def stop_simulation():
 	global client_id
 
 	return_code = 0
-
 	##############	ADD YOUR CODE HERE	##############
 	
 	sim.simxSynchronousTrigger(client_id)
@@ -287,6 +289,7 @@ def exit_remote_api_server():
 	This function should wait for the last command sent to arrive at the Coppeliasim server
 	before closing the connection and then end the communication thread with server
 	i.e. CoppeliaSim using simxFinish Remote API.
+
 	Input Arguments:
 	---
 	None
@@ -414,7 +417,7 @@ if __name__ == "__main__":
 	
 	# Get image array and its resolution from Vision Sensor in ComppeliaSim scene
 	try:
-		vision_sensor_image, image_resolution, return_code = get_vision_sensor_image()
+		vision_sensor_image, image_resolution, return_code = get_vision_sensor_image(19)
 
 		if ((return_code == sim.simx_return_ok) and (len(image_resolution) == 2) and (len(vision_sensor_image) > 0)):
 			print('\nImage captured from Vision Sensor in CoppeliaSim successfully!')
@@ -425,14 +428,13 @@ if __name__ == "__main__":
 
 				if (type(transformed_image) is np.ndarray):
 
-					cv2.imshow('transformed image', transformed_image)
-					cv2.waitKey(0)
-					cv2.destroyAllWindows()
+					#cv2.imshow('transformed image', transformed_image)
+					#cv2.waitKey(0)
+					#cv2.destroyAllWindows()
 
 					# Get the resultant warped transformed vision sensor image after applying Perspective Transform
 					try:
 						warped_img = task_1b.applyPerspectiveTransform(transformed_image)
-						
 						if (type(warped_img) is np.ndarray):
 
 							# Get the 'shapes' dictionary by passing the 'warped_img' to scan_image function
@@ -545,3 +547,4 @@ if __name__ == "__main__":
 		traceback.print_exc(file=sys.stdout)
 		print()
 		sys.exit()
+

@@ -104,15 +104,18 @@ def scan_image(original_img):
     ---
     this function takes file path of an image as an argument and returns dictionary
     containing details of colored (non-white) shapes in that image
+
     Input Arguments:
     ---
     `img_file_path` :		[ str ]
         file path of image
+
     Returns:
     ---
     `shapes` :              [ dictionary ]
         details of colored (non-white) shapes present in image at img_file_path
         { 'Shape' : ['color', Area, cX, cY] }
+
     Example call:
     ---
     shapes = scan_image(img_file_path)
@@ -124,10 +127,11 @@ def scan_image(original_img):
 
     ##############	ADD YOUR CODE HERE	##############
 
-    grayscale_img = cv2.cvtColor(original_img, cv2.COLOR_RGB2GRAY)
+    grayscale_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
 
-    _, threshold = cv2.threshold(grayscale_img, 240, 255, cv2.THRESH_BINARY)
-
+    _, threshold = cv2.threshold(grayscale_img, 200, 255, cv2.THRESH_BINARY)
+    #cv2.imshow("ret",threshold)
+    #cv2.waitKey(0)
     contours, hierarchy = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     height, width, channel = original_img.shape
@@ -135,11 +139,11 @@ def scan_image(original_img):
 
     for cnt in contours:
 
-        if cv2.contourArea(cnt) > (0.995 * width * height): #this is used to exclude parent element from being considered as a contour
+        if cv2.contourArea(cnt) > (0.995 * width * height) or cv2.contourArea(cnt) < 500: #this is used to exclude parent element from being considered as a contour
             continue
 
         approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
-
+        #print(cv2.contourArea(cnt))
         M = cv2.moments(cnt)
         cx = int(M['m10']/M['m00'])
         cy = int(M['m01']/M['m00'])
