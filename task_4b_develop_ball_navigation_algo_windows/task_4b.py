@@ -20,7 +20,7 @@
 # Team ID:          [ Team-ID ]
 # Author List:      [ Names of team members worked on this file separated by Comma: Name1, Name2, ... ]
 # Filename:         task_4b.py
-# Functions:        calculate_path_from_maze_image, send_data_to_draw_path, 
+# Functions:        calculate_path_from_maze_image, send_data_to_draw_path,
 # 					convert_path_to_pixels, traverse_path
 #                   [ Comma separated list of functions in this file ]
 # Global variables: client_id, setpoint, start_coord, end_coord
@@ -34,7 +34,8 @@
 ##############################################################
 import numpy as np
 import cv2
-import os, sys
+import os
+import sys
 import traceback
 import time
 import math
@@ -43,14 +44,14 @@ import math
 # Importing the sim module for Remote API connection with CoppeliaSim
 try:
     import sim
-    
+
 except Exception:
     print('\n[ERROR] It seems the sim.py OR simConst.py files are not found!')
     print('\n[WARNING] Make sure to have following files in the directory:')
     print('sim.py, simConst.py and appropriate library - remoteApi.dll (if on Windows), remoteApi.so (if on Linux) or remoteApi.dylib (if on Mac).\n')
     sys.exit()
 
-#Import 'task_1b.py' file as module
+# Import 'task_1b.py' file as module
 try:
     import task_1b
 
@@ -59,7 +60,7 @@ except ImportError:
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_1b.py is present in this current directory.\n')
     sys.exit()
-    
+
 except Exception as e:
     print('Your task_1b.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
@@ -75,7 +76,7 @@ except ImportError:
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_1a_part1.py is present in this current directory.\n')
     sys.exit()
-    
+
 except Exception as e:
     print('Your task_1a_part1.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
@@ -91,7 +92,7 @@ except ImportError:
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_2a.py is present in this current directory.\n')
     sys.exit()
-    
+
 except Exception as e:
     print('Your task_2a.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
@@ -106,7 +107,7 @@ except ImportError:
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_2b.py is present in this current directory.\n')
     sys.exit()
-    
+
 except Exception as e:
     print('Your task_2b.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
@@ -121,7 +122,7 @@ except ImportError:
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_3.py is present in this current directory.\n')
     sys.exit()
-    
+
 except Exception as e:
     print('Your task_3.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
@@ -137,7 +138,7 @@ except ImportError:
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_4a.py is present in this current directory.\n')
     sys.exit()
-    
+
 except Exception as e:
     print('Your task_4a.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
@@ -155,12 +156,11 @@ setpoint = [0, 0]
 # Global tuple to store the start and end cell coordinates of the maze
 # The 0th element stores the row and 1st element stores the column
 # NOTE: DO NOT change the value of these tuples
-start_coord = (0,4)
-end_coord = (9,5)
+start_coord = (0, 4)
+end_coord = (9, 5)
 
 # You can add your global variables here
 ##############################################################
-
 
 
 ##############################################################
@@ -171,10 +171,6 @@ end_coord = (9,5)
 ## Please add proper comments to ensure that your code is   ##
 ## readable and easy to understand.                         ##
 ##############################################################
-
-
-
-
 
 
 ##############################################################
@@ -196,19 +192,19 @@ def calculate_path_from_maze_image(img_file_path):
     ---
     `img_file_path` :  [ str ]
         File path of maze image.
-    
+
     Returns:
     ---
     `maze_array` 	:   [ nested list of lists ]
         encoded maze in the form of a 2D array
-    
+
     `path` :  [ list of tuples ]
         path between start and end coordinates
 
     Example call:
     ---
     maze_array, path = calculate_path_from_maze_image(img_file_path)
-    
+
     """
 
     # read the 'maze00.jpg' image file
@@ -231,33 +227,40 @@ def calculate_path_from_maze_image(img_file_path):
                         print('\n============================================')
 
                         try:
-                            path = task_4a.find_path(maze_array, start_coord, end_coord)
+                            path = task_4a.find_path(
+                                maze_array, start_coord, end_coord)
 
                             if (type(path) is list):
 
-                                print('\nPath calculated between %s and %s is = %s' % (start_coord, end_coord, path))
-                                print('\n============================================')
-                            
+                                print('\nPath calculated between %s and %s is = %s' % (
+                                    start_coord, end_coord, path))
+                                print(
+                                    '\n============================================')
+
                             else:
-                                print('It seems that path is of type ', type(path),'.\n Make sure that is a list.')
-                        
+                                print('It seems that path is of type ', type(
+                                    path), '.\n Make sure that is a list.')
+
                         except Exception:
-                            print('\n[ERROR] Your find_path function in \'task_4a.py\' throwed an Exception, kindly debug your code!')
+                            print(
+                                '\n[ERROR] Your find_path function in \'task_4a.py\' throwed an Exception, kindly debug your code!')
                             traceback.print_exc(file=sys.stdout)
                             print()
                             sys.exit()
 
                     else:
-                        print('\n[ERROR] maze_array returned by detectMaze function in \'task_1b.py\' is not returning maze array in expected format!, check the code.')
+                        print(
+                            '\n[ERROR] maze_array returned by detectMaze function in \'task_1b.py\' is not returning maze array in expected format!, check the code.')
                         print()
                         sys.exit()
-                
+
                 except Exception:
-                    print('\n[ERROR] Your detectMaze function in \'task_1b.py\' throwed an Exception, kindly debug your code!')
+                    print(
+                        '\n[ERROR] Your detectMaze function in \'task_1b.py\' throwed an Exception, kindly debug your code!')
                     traceback.print_exc(file=sys.stdout)
                     print()
                     sys.exit()
-            
+
             else:
                 print('\n[ERROR] applyPerspectiveTransform function in \'task_1b.py\' is not returning the warped maze image in expected format!, check the code.')
                 print()
@@ -268,9 +271,10 @@ def calculate_path_from_maze_image(img_file_path):
             traceback.print_exc(file=sys.stdout)
             print()
             sys.exit()
-    
+
     else:
-        print('\n[ERROR] maze0' + str(file_num) + '.jpg was not read correctly, something went wrong!')
+        print('\n[ERROR] maze0' + str(file_num) +
+              '.jpg was not read correctly, something went wrong!')
         print()
         sys.exit()
 
@@ -284,7 +288,7 @@ def send_data_to_draw_path(rec_client_id, path):
     This function should:
     1. Convert and 
     2. Send a flattened path to LUA's drawPath() function.
-    
+
     Teams are free to choose logic for this conversion.
 
     We have provided an example code for the above.
@@ -302,7 +306,7 @@ def send_data_to_draw_path(rec_client_id, path):
     3. The x and y origin of CoppeliaSim coincides with the center of 4th and 5th row as well
     as column. When row and column are both 0, the corresponding CoppeliaSim coordinates are
     (-0.5,-0.5). Since we need the path from the center of the cell, an offset of 45cm is required.
-    
+
                         0.45m								0.5m
          |←-----------------------------→|←----------------------------------→|
          |								 |									  |
@@ -354,7 +358,7 @@ def send_data_to_draw_path(rec_client_id, path):
 
     NOTE: You are ALLOWED to change this function according to your logic.
           Visualization of this path in the scene is MANDATORY.
-    
+
     Input Arguments:
     ---
     `rec_client_id` 	:  [ integer ]
@@ -362,15 +366,15 @@ def send_data_to_draw_path(rec_client_id, path):
 
     `path` 	:  [ list ]
         Path returned from task_4a.find_path() function.
-    
+
     Returns:
     ---
     None
-    
+
     Example call:
     ---
     send_data_to_draw_path(rec_client_id,path)
-    
+
     """
     global client_id
     client_id = rec_client_id
@@ -378,21 +382,21 @@ def send_data_to_draw_path(rec_client_id, path):
     ##############	IF REQUIRED, CHANGE THE CODE FROM HERE	##############
 
     coppelia_sim_coord_path = []
-    
+
     for coord in path:
         for element in coord:
             coppelia_sim_coord_path.append(((10*element) - 45)/100)
-    
+
     print('\n============================================')
     print('\nPath sent to drawPath function of Lua script is \n')
     print(coppelia_sim_coord_path)
 
     inputBuffer = bytearray()
 
-    return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id, \
-                        'top_plate_respondable_1', sim.sim_scripttype_customizationscript, 'drawPath', [], \
-                        coppelia_sim_coord_path, [], inputBuffer, sim.simx_opmode_blocking)
-    
+    return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id,
+                                                                                        'top_plate_respondable_1', sim.sim_scripttype_customizationscript, 'drawPath', [],
+                                                                                        coppelia_sim_coord_path, [], inputBuffer, sim.simx_opmode_blocking)
+
     ##################################################
 
 
@@ -407,7 +411,7 @@ def convert_path_to_pixels(path):
     ---
     `path` 	:  [ list ]
         Path returned from task_4a.find_path() function.
-    
+
     Returns:
     ---
     `pixel_path` : [ type can be decided by teams ]
@@ -415,7 +419,7 @@ def convert_path_to_pixels(path):
     Example call:
     ---
     pixel_path = convert_path_to_pixels(path)
-    
+
     """
     ##############	ADD YOUR CODE HERE	##############
     pixel_path = []
@@ -425,19 +429,18 @@ def convert_path_to_pixels(path):
         for elem in duo:
             elem = elem * 80 + 40
             temp = temp + (elem, )
-        #print(temp)
+        # print(temp)
         pixel_path.append(temp)
-    ##################################################	
+    ##################################################
     return pixel_path
 
 
 def traverse_path(pixel_path):
-
     """
     Purpose:
     ---
     This function should make the ball traverse the calculated path.
-    
+
     Teams are free to choose logic for this function.
 
     NOTE: Refer the code of main function in task_3.py.
@@ -445,11 +448,11 @@ def traverse_path(pixel_path):
     Input Arguments:
     ---
     `pixel_path` : [ type can be decided by teams ]
-    
+
     Returns:
     ---
     None
-    
+
     Example call:
     ---
     traverse_path(pixel_path)
@@ -457,76 +460,88 @@ def traverse_path(pixel_path):
     """
     ##############	ADD YOUR CODE HERE	##############
 
-    #Need to get the centroid of the ball in each frame
-    #need to store the position of centroid to pass in control_logic
-    #need to change the setpoint after sometime
-    #need to call contorl logic function
+    # Need to get the centroid of the ball in each frame
+    # need to store the position of centroid to pass in control_logic
+    # need to change the setpoint after sometime
+    # need to call contorl logic function
 
     global client_id
 
     sim.simxSynchronousTrigger(client_id)
-    return_code, vision_sensor_handle = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
+    return_code, vision_sensor_handle = sim.simxGetObjectHandle(
+        client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
 
     # Initialising the center_x and center_y variable to the current position of the ball
-    center_x = start_coord[0]
-    center_y = start_coord[1]
+    center_x = int(start_coord[0] * 80 + 40)
+    center_y = int(start_coord[1] * 80 + 40)
 
     check_x = int(end_coord[0] * 80 + 40)
     check_y = int(end_coord[1] * 80 + 40)
 
     i = 1
+    destination_cell = [end_coord[0] * 80 + 40, end_coord[1] * 80 + 40]
+
     while not (abs(center_x - check_x) <= 20 and abs(center_y - check_y) <= 20):
 
-        vision_sensor_image, image_resolution, return_code = task_2a.get_vision_sensor_image(vision_sensor_handle)
-    
-        transformed_image = task_2a.transform_vision_sensor_image(vision_sensor_image, image_resolution)
+        vision_sensor_image, image_resolution, return_code = task_2a.get_vision_sensor_image(
+            vision_sensor_handle)
+
+        transformed_image = task_2a.transform_vision_sensor_image(
+            vision_sensor_image, image_resolution)
 
         warped_img = task_1b.applyPerspectiveTransform(transformed_image)
-    
+
         shapes = task_1a_part1.scan_image(warped_img)
 
-        #print(shapes)
-
         center_x = shapes['Circle'][1]
-        center_y = shapes['Circle'][2] 
-        
-        next = [pixel_path[i][0], pixel_path[i][1]]
-        task_3.change_setpoint(next)
+        center_y = shapes['Circle'][2]
 
-        err_X = abs(center_x - next[0]) 
+        #*******************************************************
+
+        next = [pixel_path[i][0], pixel_path[i][1]]
+        counter = 0
+
+        if next != destination_cell:
+            while (next[0] == pixel_path[i-1][0] and next[0] == pixel_path[i+1][0]) or (next[1] == pixel_path[i-1][1] and next[1] == pixel_path[i+1][1]):
+                counter += 1
+                if counter > 2:
+                    break
+
+                i += 1
+                next = [pixel_path[i][0], pixel_path[i][1]]
+
+        task_3.change_setpoint(next)
+        i += 1
+
+        #*******************************************************
+
+        err_X = abs(center_x - next[0])
         err_Y = abs(center_y - next[1])
 
         while not(err_X <= 20 and err_Y <= 20):
-            vision_sensor_image, image_resolution, return_code = task_2a.get_vision_sensor_image(vision_sensor_handle)
-    
-            transformed_image = task_2a.transform_vision_sensor_image(vision_sensor_image, image_resolution)
+            vision_sensor_image, image_resolution, return_code = task_2a.get_vision_sensor_image(
+                vision_sensor_handle)
+
+            transformed_image = task_2a.transform_vision_sensor_image(
+                vision_sensor_image, image_resolution)
 
             warped_img = task_1b.applyPerspectiveTransform(transformed_image)
 
-            #cv2.imshow("res", warped_img)
-            #cv2.waitKey(0)
-
             shapes = task_1a_part1.scan_image(warped_img)
-            #print(shapes)
 
             center_x = shapes['Circle'][1]
-            center_y = shapes['Circle'][2] 
-            
-            #print("in the loop", next, center_x, center_y)
+            center_y = shapes['Circle'][2]
+
             task_3.control_logic(center_x, center_y)
 
-            err_X = abs(center_x - next[0]) 
+            err_X = abs(center_x - next[0])
             err_Y = abs(center_y - next[1])
-            #print(err_X, err_Y)
-        
-        #print("out of the loop")
-        i+=1
 
     ##################################################
 
 
 # NOTE:	YOU ARE NOT ALLOWED TO MAKE ANY CHANGE TO THIS FUNCTION
-# 
+#
 # Function Name:    main
 #        Inputs:    None
 #       Outputs:    None
@@ -538,7 +553,7 @@ def traverse_path(pixel_path):
 #						- imports 'task_3' file as module
 #						- imports 'task_4a' file as module
 # 						- takes 'maze00.jpg' image file as input
-# 						- calls calculate_path_from_maze_image() function 
+# 						- calls calculate_path_from_maze_image() function
 # 						- calls init_remote_api_server() function in 'task_2a' to connect with CoppeliaSim Remote API server
 #						- then calls send_data() function in 'task_2b' to send maze array data to LUA script
 # 						- then calls start_simulation() function in 'task_2a' to start the simulation
@@ -562,20 +577,22 @@ if __name__ == "__main__":
 
     print('\n============================================')
     print('\nFor maze0' + str(file_num) + '.jpg')
-    
+
     if os.path.exists(img_file_path):
-        
+
         try:
-            maze_array,path = calculate_path_from_maze_image(img_file_path)
-        
+            maze_array, path = calculate_path_from_maze_image(img_file_path)
+
         except Exception:
-            print('\n[ERROR] Your calculate_path_from_maze_image() function throwed an Exception. Kindly debug your code!')
+            print(
+                '\n[ERROR] Your calculate_path_from_maze_image() function throwed an Exception. Kindly debug your code!')
             print('Stop the CoppeliaSim simulation manually.\n')
             traceback.print_exc(file=sys.stdout)
             print()
             sys.exit()
     else:
-        print('\n[ERROR] maze0' + str(file_num) + '.jpg not found. Make sure "test_cases" folder is present in current directory.')
+        print('\n[ERROR] maze0' + str(file_num) +
+              '.jpg not found. Make sure "test_cases" folder is present in current directory.')
         print('Your current directory is: ', os.getcwd())
         sys.exit()
 
@@ -591,8 +608,8 @@ if __name__ == "__main__":
 
             try:
                 # Send maze array data to CoppeliaSim via Remote API
-                
-                return_code = task_2b.send_data(client_id,maze_array)
+
+                return_code = task_2b.send_data(client_id, maze_array)
 
                 if (return_code == sim.simx_return_ok):
                     # Starting the Simulation
@@ -601,57 +618,68 @@ if __name__ == "__main__":
 
                         if (return_code == sim.simx_return_novalue_flag):
                             print('\nSimulation started correctly in CoppeliaSim.')
-                            
+
                             # Storing the required handles in respective global variables.
                             try:
                                 task_3.init_setup(client_id)
                                 try:
-                                    send_data_to_draw_path(client_id,path)
-                                
+                                    send_data_to_draw_path(client_id, path)
+
                                 except Exception:
-                                    print('\n[ERROR] Your send_data_to_draw_path() function throwed an Exception. Kindly debug your code!')
-                                    print('Stop the CoppeliaSim simulation manually.\n')
+                                    print(
+                                        '\n[ERROR] Your send_data_to_draw_path() function throwed an Exception. Kindly debug your code!')
+                                    print(
+                                        'Stop the CoppeliaSim simulation manually.\n')
                                     traceback.print_exc(file=sys.stdout)
                                     print()
                                     sys.exit()
-                            
+
                             except Exception:
-                                print('\n[ERROR] Your init_setup() function throwed an Exception. Kindly debug your code!')
-                                print('Stop the CoppeliaSim simulation manually if started.\n')
+                                print(
+                                    '\n[ERROR] Your init_setup() function throwed an Exception. Kindly debug your code!')
+                                print(
+                                    'Stop the CoppeliaSim simulation manually if started.\n')
                                 traceback.print_exc(file=sys.stdout)
                                 print()
                                 sys.exit()
-                        
+
                         else:
-                            print('\n[ERROR] Failed starting the simulation in CoppeliaSim!')
-                            print('start_simulation function in task_2a.py is not configured correctly, check the code!')
+                            print(
+                                '\n[ERROR] Failed starting the simulation in CoppeliaSim!')
+                            print(
+                                'start_simulation function in task_2a.py is not configured correctly, check the code!')
                             print()
                             sys.exit()
 
                     except Exception:
-                        print('\n[ERROR] Your start_simulation function in task_2a.py throwed an Exception. Kindly debug your code!')
+                        print(
+                            '\n[ERROR] Your start_simulation function in task_2a.py throwed an Exception. Kindly debug your code!')
                         print('Stop the CoppeliaSim simulation manually.\n')
                         traceback.print_exc(file=sys.stdout)
                         print()
                         sys.exit()
-                
+
                 else:
                     print('\n[ERROR] Failed sending data to CoppeliaSim!')
-                    print('send_data function in task_2b.py is not configured correctly, check the code!')
+                    print(
+                        'send_data function in task_2b.py is not configured correctly, check the code!')
                     print()
                     sys.exit()
 
             except Exception:
-                print('\n[ERROR] Your send_data function throwed an Exception, kindly debug your code!')
+                print(
+                    '\n[ERROR] Your send_data function throwed an Exception, kindly debug your code!')
                 traceback.print_exc(file=sys.stdout)
                 print()
                 sys.exit()
-        
+
         else:
             print('\n[ERROR] Failed connecting to Remote API server!')
             print('[WARNING] Make sure the CoppeliaSim software is running and')
-            print('[WARNING] Make sure the Port number for Remote API Server is set to 19997.')
-            print('[ERROR] OR init_remote_api_server function in task_2a.py is not configured correctly, check the code!')
+            print(
+                '[WARNING] Make sure the Port number for Remote API Server is set to 19997.')
+            print(
+                '[ERROR] OR init_remote_api_server function in task_2a.py is not configured correctly, check the code!')
             print()
             sys.exit()
 
@@ -664,29 +692,32 @@ if __name__ == "__main__":
 
     try:
         pixel_path = convert_path_to_pixels(path)
-        print('\nPath calculated between %s and %s in pixels is = %s' % (start_coord, end_coord, pixel_path))
+        print('\nPath calculated between %s and %s in pixels is = %s' %
+              (start_coord, end_coord, pixel_path))
         print('\n============================================')
 
         try:
             traverse_path(pixel_path)
-        
+
         except Exception:
-            print('\n[ERROR] Your traverse_path() function throwed an Exception. Kindly debug your code!')
+            print(
+                '\n[ERROR] Your traverse_path() function throwed an Exception. Kindly debug your code!')
             print('Stop the CoppeliaSim simulation manually.\n')
             traceback.print_exc(file=sys.stdout)
             print()
             sys.exit()
-    
+
     except Exception:
-        print('\n[ERROR] Your convert_path_to_pixels() function throwed an Exception. Kindly debug your code!')
+        print(
+            '\n[ERROR] Your convert_path_to_pixels() function throwed an Exception. Kindly debug your code!')
         print('Stop the CoppeliaSim simulation manually.\n')
         traceback.print_exc(file=sys.stdout)
         print()
         sys.exit()
-    
+
     try:
         return_code = task_2a.stop_simulation()
-        
+
         if (return_code == sim.simx_return_novalue_flag):
             print('\nSimulation stopped correctly.')
 
@@ -695,22 +726,27 @@ if __name__ == "__main__":
                 task_2a.exit_remote_api_server()
 
                 if (task_2a.start_simulation() == sim.simx_return_initialize_error_flag):
-                    print('\nDisconnected successfully from Remote API Server in CoppeliaSim!')
+                    print(
+                        '\nDisconnected successfully from Remote API Server in CoppeliaSim!')
 
                 else:
-                    print('\n[ERROR] Failed disconnecting from Remote API server!')
-                    print('[ERROR] exit_remote_api_server function in task_2a.py is not configured correctly, check the code!')
+                    print(
+                        '\n[ERROR] Failed disconnecting from Remote API server!')
+                    print(
+                        '[ERROR] exit_remote_api_server function in task_2a.py is not configured correctly, check the code!')
 
             except Exception:
-                print('\n[ERROR] Your exit_remote_api_server function in task_2a.py throwed an Exception. Kindly debug your code!')
+                print(
+                    '\n[ERROR] Your exit_remote_api_server function in task_2a.py throwed an Exception. Kindly debug your code!')
                 print('Stop the CoppeliaSim simulation manually.\n')
                 traceback.print_exc(file=sys.stdout)
                 print()
                 sys.exit()
-        
+
         else:
             print('\n[ERROR] Failed stopping the simulation in CoppeliaSim server!')
-            print('[ERROR] stop_simulation function in task_2a.py is not configured correctly, check the code!')
+            print(
+                '[ERROR] stop_simulation function in task_2a.py is not configured correctly, check the code!')
             print('Stop the CoppeliaSim simulation manually.')
             print()
             sys.exit()
