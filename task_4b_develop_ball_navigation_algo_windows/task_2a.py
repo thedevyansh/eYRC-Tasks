@@ -127,7 +127,7 @@ def start_simulation():
 	Returns:
 	---
 	`return_code` 	:  [ integer ]
-		the return code generated from the start running simulation remote API
+		the return code generated from the start running simulation remote API26
 	
 	Example call:
 	---
@@ -143,8 +143,9 @@ def start_simulation():
 	##############	ADD YOUR CODE HERE	##############
 	
 	sim.simxSynchronous(client_id, True)
+	#sim.simxSynchronousTrigger(client_id)
 	return_code = sim.simxStartSimulation(client_id, sim.simx_opmode_streaming)
-
+	sim.simxSynchronousTrigger(client_id)
 	##################################################
 
 	return return_code

@@ -276,6 +276,7 @@ def calculate_path_from_maze_image(img_file_path):
 
 
 def send_data_to_draw_path(rec_client_id, path):
+    
     """
     Purpose:
     ---
@@ -350,7 +351,7 @@ def send_data_to_draw_path(rec_client_id, path):
     client_id = rec_client_id
 
     ##############	IF REQUIRED, CHANGE THE CODE FROM HERE	##############
-
+    #sim.simxSynchronousTrigger(client_id)
     coppelia_sim_coord_path = []
 
     for coord in path:
@@ -428,14 +429,14 @@ def traverse_path(pixel_path):
     global init_simulation_time, curr_simulation_time, client_id
 
     # Storing time when the simulation started in variable init_simulation_time
-    sim.simxSynchronousTrigger(client_id)
+    #sim.simxSynchronousTrigger(client_id)
     return_code_signal, init_simulation_time_string = sim.simxGetStringSignal(client_id, 'time', sim.simx_opmode_blocking)
 
     if(return_code_signal == 0):
         init_simulation_time = float(init_simulation_time_string)
     print("init", return_code_signal, init_simulation_time_string)
 
-    sim.simxSynchronousTrigger(client_id)
+    #sim.simxSynchronousTrigger(client_id)
     return_code, vision_sensor_handle = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
 
     # Initialising the center_x and center_y variable to the current position of the ball
@@ -455,7 +456,7 @@ def traverse_path(pixel_path):
         if(return_code_signal == 0):
             curr_simulation_time = float(curr_simulation_time_string)
 
-        sim.simxSynchronousTrigger(client_id)
+        #sim.simxSynchronousTrigger(client_id)
         vision_sensor_image, image_resolution, return_code = task_2a.get_vision_sensor_image(
             vision_sensor_handle)
 
