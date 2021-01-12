@@ -114,16 +114,11 @@ def init_setup(rec_client_id):
     return_code = 0
 
     sim.simxSynchronousTrigger(client_id)
-    return_code, vision_sensor_handle = sim.simxGetObjectHandle(
-        client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
-    return_code, x_motor1 = sim.simxGetObjectHandle(
-        client_id, 'revolute_joint_ss_1', sim.simx_opmode_blocking)
-    return_code, x_motor2 = sim.simxGetObjectHandle(
-        client_id, 'revolute_joint_ss_2', sim.simx_opmode_blocking)
-    return_code, y_motor1 = sim.simxGetObjectHandle(
-        client_id, 'revolute_joint_ss_4', sim.simx_opmode_blocking)
-    return_code, y_motor2 = sim.simxGetObjectHandle(
-        client_id, 'revolute_joint_ss_3', sim.simx_opmode_blocking)
+    #return_code, vision_sensor_handle = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
+    return_code, x_motor1 = sim.simxGetObjectHandle(client_id, 'revolute_joint_ss_1', sim.simx_opmode_blocking)
+    return_code, x_motor2 = sim.simxGetObjectHandle(client_id, 'revolute_joint_ss_2', sim.simx_opmode_blocking)
+    return_code, y_motor1 = sim.simxGetObjectHandle(client_id, 'revolute_joint_ss_4', sim.simx_opmode_blocking)
+    return_code, y_motor2 = sim.simxGetObjectHandle(client_id, 'revolute_joint_ss_3', sim.simx_opmode_blocking)
 
     ##################################################
 
@@ -181,15 +176,15 @@ def control_logic(center_x, center_y):
     inputX = center_x
     inputY = center_y
 
-    print(center_x, center_y)
+    #print(center_x, center_y)
     current_time = int(round(time.time() * 1000))
     timeChange = 1
     
     Kpx = 1.57 * 0.16 * 8 / 640
     Kpy = 1.57  * 0.16 * 8 / 640
     
-    Kdx = 1.57 * 1.75 * timeChange / 26
-    Kdy = 1.57 * 1.6 * timeChange / 26
+    Kdx = 1.57 * 1.70 * timeChange / 26
+    Kdy = 1.57 * 1.78 * timeChange / 26
 
     current_error_x = center_x - setpoint[0]
     current_error_y = center_y - setpoint[1]

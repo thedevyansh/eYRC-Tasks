@@ -161,8 +161,8 @@ end_coord = (9, 5)
 
 # You can add your global variables here
 ##############################################################
-
-
+curr_simulation_time = 0
+init_simulation_time = 0
 ##############################################################
 
 
@@ -184,27 +184,21 @@ def calculate_path_from_maze_image(img_file_path):
     This function reads the image from `img_file_path` input, applies
     Perspective Transform and computes the encoded maze array by calling
     applyPerspectiveTransform and detectMaze functions from task_1b.py.
-
     It then calls the find_path function from task_4a.py to compute the path
     between start and end coordinate values declared globally.
-
     Input Arguments:
     ---
     `img_file_path` :  [ str ]
         File path of maze image.
-
     Returns:
     ---
     `maze_array` 	:   [ nested list of lists ]
         encoded maze in the form of a 2D array
-
     `path` :  [ list of tuples ]
         path between start and end coordinates
-
     Example call:
     ---
     maze_array, path = calculate_path_from_maze_image(img_file_path)
-
     """
 
     # read the 'maze00.jpg' image file
@@ -288,25 +282,17 @@ def send_data_to_draw_path(rec_client_id, path):
     This function should:
     1. Convert and 
     2. Send a flattened path to LUA's drawPath() function.
-
     Teams are free to choose logic for this conversion.
-
     We have provided an example code for the above.
-
     Suppose [(1, 5), (2, 5)] is the path given as input to this function. 
     To visualize this path, it needs to be converted to CoppeliaSim coordinates.
-
     The following points should be considered:
-
     1. The entire maze is 1m x 1m in CoppeliaSim coordinates. Dividing this by 10 rows and 
     10 columns, we get the size of each cell to be 10cm x 10cm.
-
     2. The x axis of CoppeliaSim corresponds to the row and y axis corresponds to the column.
-
     3. The x and y origin of CoppeliaSim coincides with the center of 4th and 5th row as well
     as column. When row and column are both 0, the corresponding CoppeliaSim coordinates are
     (-0.5,-0.5). Since we need the path from the center of the cell, an offset of 45cm is required.
-
                         0.45m								0.5m
          |←-----------------------------→|←----------------------------------→|
          |								 |									  |
@@ -328,53 +314,37 @@ def send_data_to_draw_path(rec_client_id, path):
                                        (0,0) _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _↓
      _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _
     |_| 	|_|		|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_|		5
-
      _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _
     |_| 	|_|		|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_|		6
-
      _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _
     |_| 	|_|		|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_|		7
-
      _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _
     |_| 	|_|		|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_|		8
-
      _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _	 	 _
     |_| 	|_|		|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_| 	|_|		9
     |		|
     | 0.1m	|
     |←-----→|
-
-
     Using the above information we map the cell coordinates to the CoppeliaSim coordinates.
     The formula comes out to be:
-
     CoppeliaSim_coordinate=(((10*row_or_column_number) - 45)/100) m
-
     Hence the CoppeliaSim coordinates for the above example will be:
-
     coppelia_sim_coord_path = [-0.35, 0.05, -0.25, 0.05]
-
     Here we are sending a simple list with alternate x and y coordinates.
-
     NOTE: You are ALLOWED to change this function according to your logic.
           Visualization of this path in the scene is MANDATORY.
-
     Input Arguments:
     ---
     `rec_client_id` 	:  [ integer ]
         the client_id generated from start connection remote API, should be stored in a global variable
-
     `path` 	:  [ list ]
         Path returned from task_4a.find_path() function.
-
     Returns:
     ---
     None
-
     Example call:
     ---
     send_data_to_draw_path(rec_client_id,path)
-
     """
     global client_id
     client_id = rec_client_id
@@ -406,20 +376,16 @@ def convert_path_to_pixels(path):
     ---
     This function should convert the obtained path (list of tuples) to pixels.
     Teams are free to choose the number of points and logic for this conversion.
-
     Input Arguments:
     ---
     `path` 	:  [ list ]
         Path returned from task_4a.find_path() function.
-
     Returns:
     ---
     `pixel_path` : [ type can be decided by teams ]
-
     Example call:
     ---
     pixel_path = convert_path_to_pixels(path)
-
     """
     ##############	ADD YOUR CODE HERE	##############
     pixel_path = []
@@ -440,23 +406,17 @@ def traverse_path(pixel_path):
     Purpose:
     ---
     This function should make the ball traverse the calculated path.
-
     Teams are free to choose logic for this function.
-
     NOTE: Refer the code of main function in task_3.py.
-
     Input Arguments:
     ---
     `pixel_path` : [ type can be decided by teams ]
-
     Returns:
     ---
     None
-
     Example call:
     ---
     traverse_path(pixel_path)
-
     """
     ##############	ADD YOUR CODE HERE	##############
 
@@ -465,11 +425,18 @@ def traverse_path(pixel_path):
     # need to change the setpoint after sometime
     # need to call contorl logic function
 
-    global client_id
+    global init_simulation_time, curr_simulation_time, client_id
+
+    # Storing time when the simulation started in variable init_simulation_time
+    sim.simxSynchronousTrigger(client_id)
+    return_code_signal, init_simulation_time_string = sim.simxGetStringSignal(client_id, 'time', sim.simx_opmode_blocking)
+
+    if(return_code_signal == 0):
+        init_simulation_time = float(init_simulation_time_string)
+    print("init", return_code_signal, init_simulation_time_string)
 
     sim.simxSynchronousTrigger(client_id)
-    return_code, vision_sensor_handle = sim.simxGetObjectHandle(
-        client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
+    return_code, vision_sensor_handle = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
 
     # Initialising the center_x and center_y variable to the current position of the ball
     center_x = int(start_coord[0] * 80 + 40)
@@ -481,8 +448,14 @@ def traverse_path(pixel_path):
     i = 1
     destination_cell = [end_coord[0] * 80 + 40, end_coord[1] * 80 + 40]
 
-    while not (abs(center_x - check_x) <= 20 and abs(center_y - check_y) <= 20):
+    while not (abs(center_x - check_x) <= 20 and abs(center_y - check_y) <= 20) and (curr_simulation_time - init_simulation_time <= 600):
 
+        return_code_signal, curr_simulation_time_string = sim.simxGetStringSignal(client_id, 'time', sim.simx_opmode_blocking)
+        print("curr", return_code_signal, curr_simulation_time_string)
+        if(return_code_signal == 0):
+            curr_simulation_time = float(curr_simulation_time_string)
+
+        sim.simxSynchronousTrigger(client_id)
         vision_sensor_image, image_resolution, return_code = task_2a.get_vision_sensor_image(
             vision_sensor_handle)
 
@@ -518,7 +491,7 @@ def traverse_path(pixel_path):
         err_X = abs(center_x - next[0])
         err_Y = abs(center_y - next[1])
 
-        while not(err_X <= 20 and err_Y <= 20):
+        while not(err_X <= 20 and err_Y <= 20) and (curr_simulation_time - init_simulation_time <= 600):
             vision_sensor_image, image_resolution, return_code = task_2a.get_vision_sensor_image(
                 vision_sensor_handle)
 
@@ -533,7 +506,8 @@ def traverse_path(pixel_path):
             center_y = shapes['Circle'][2]
 
             task_3.control_logic(center_x, center_y)
-
+            
+            print(center_x, center_y)
             err_X = abs(center_x - next[0])
             err_Y = abs(center_y - next[1])
 

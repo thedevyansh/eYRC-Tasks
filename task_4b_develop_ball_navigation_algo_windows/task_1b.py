@@ -155,8 +155,16 @@ def applyPerspectiveTransform(input_img):
     ratio = x[0] / x[1]
     
     if ratio >= 0.9 and ratio <=1.1 or x[0] - x[1] < 300:
+        print("first condition")
         x = np.array([points[6],points[0],points[2],points[4]]) #Extracting x coordinates
         y = np.array([points[7],points[1],points[3],points[5]]) #Extracting y coordinates
+
+    if gray.shape[0] == 1024 and ratio >= 0.9 and ratio <= 1.1 and y[0] < 900:
+        print("second condition")
+        x = np.array([points[4],points[6],points[0],points[2]]) #Extracting x coordinates
+        y = np.array([points[5],points[7],points[1],points[3]]) #Extracting y coordinates
+
+    print(x,y)
 
     side = 800 #warped_img size
     pts1 = np.float32([[x[1], y[1]],[x[0], y[0]],[x[2], y[2]],[x[3], y[3]]]) #Making points matrix for input image
