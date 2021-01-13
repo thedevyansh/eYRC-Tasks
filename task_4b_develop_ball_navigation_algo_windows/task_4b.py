@@ -483,6 +483,9 @@ def traverse_path(pixel_path):
 
                 i += 1
                 next = [pixel_path[i][0], pixel_path[i][1]]
+                
+                if next == destination_cell:
+                    break
 
         task_3.change_setpoint(next)
         i += 1
