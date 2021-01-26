@@ -207,9 +207,10 @@ def main(rec_client_id):
 
 	client_id = rec_client_id
 
-	#Retrieving the vision sensor handles
+	#Retrieving all the handles
 	vision_sensor_1 = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
 	vision_sensor_4 = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
+	task_3.init_setup(client_id)
 
 	#Reading maze images
 	table_1 = cv2.imread('maze_t1.jpg')
@@ -229,16 +230,14 @@ def main(rec_client_id):
 	maze_array_1[9][5] -= 8
 	maze_array_4[5][9] -= 4
 	
+	#Sending maze array data to CoppeliaSim
+	return_code = task_2b.send_data(client_id, maze_array_1, 1)
+	return_code = task_2b.send_data(client_id, maze_array_4, 4)
+	
 	#Starting simulation
 	task_2a.start_simulation()
 
-	#Sending maze array data to CoppeliaSim
-	return_code = task_2b.send_data(client_id,maze_array_1, 1)
-	return_code = task_2b.send_data(client_id,maze_array_4, 4)
-
-	#Retrieving other handles
-	task_3.init_setup(client_id)
-
+	"""
 	#Retrieving vision sensor images
 	vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
 	vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
@@ -254,8 +253,9 @@ def main(rec_client_id):
 	#Extracting ball positions from image
 	shapes_1 = task_1a_part1.scan_image(warped_img_1)
 	shapes_4 = task_1a_part1.scan_image(warped_img_4)
-	
-	
+	"""
+
+	task_2a.stop_simulation()
 
 	##################################################
 
