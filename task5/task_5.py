@@ -227,7 +227,7 @@ def main(rec_client_id):
 	maze_array_1[0][4] -= 2
 	maze_array_1[4][9] -= 4
 	maze_array_1[9][5] -= 8
-	maze_array_4[9][5] -= 4
+	maze_array_4[5][9] -= 4
 	
 	#Starting simulation
 	task_2a.start_simulation()
