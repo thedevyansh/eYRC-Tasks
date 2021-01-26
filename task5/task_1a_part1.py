@@ -129,10 +129,20 @@ def scan_image(original_img):
 
     grayscale_img = cv2.cvtColor(original_img, cv2.COLOR_BGR2GRAY)
 
+    hsv = cv2.cvtColor(original_img, cv2.COLOR_BGR2HSV)
+
+    lower_bound = np.array([36,25,25])
+    upper_bound = np.array([86,255,255])
+
+    mask = cv2.inRange(hsv, lower_bound, upper_bound)
+
+    cv2.imshow("ret", mask)
+    cv2.waitKey(0)
+
     _, threshold = cv2.threshold(grayscale_img, 200, 255, cv2.THRESH_BINARY)
     #cv2.imshow("ret",threshold)
     #cv2.waitKey(0)
-    contours, hierarchy = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     height, width, channel = original_img.shape
     shapelist = []
@@ -141,16 +151,25 @@ def scan_image(original_img):
 
         if cv2.contourArea(cnt) > (0.995 * width * height) or cv2.contourArea(cnt) < 500: #this is used to exclude parent element from being considered as a contour
             continue
-
         approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
         #print(cv2.contourArea(cnt))
-        M = cv2.moments(cnt)
-        cx = int(M['m10']/M['m00'])
-        cy = int(M['m01']/M['m00'])
+
+        x, y, w, h = cv2.boundingRect(cnt)
+
+        cx = int(x + w / 2)
+        cy = int(y + h / 2)
+
+        #M = cv2.moments(cnt)
+        #cx = int(M['m10']/M['m00'])
+        #cy = int(M['m01']/M['m00'])
 
         shape_color = detect_shape_color(original_img, cx, cy)
         shapelist.append([shape_color, cx, cy])
     
+    #cv2.drawContours(original_img, contours, -1, (0, 0, 255), 5)
+    #cv2.imshow("ret", original_img)
+    #cv2.waitKey(0)
+
     if(len(shapelist) == 1):
         shapes.update({'Circle':[shapelist[0][0],shapelist[0][1],shapelist[0][2]]})    
     else:

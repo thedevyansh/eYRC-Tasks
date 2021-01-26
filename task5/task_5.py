@@ -211,9 +211,7 @@ def main(rec_client_id):
 	task_3.init_setup(client_id)
 	return_code, vision_sensor_1 = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
 	return_code, vision_sensor_4 = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
-
-	print(vision_sensor_1, vision_sensor_4
-	)
+	
 
 	#Reading maze images
 	table_1 = cv2.imread('maze_t1.jpg')
@@ -241,19 +239,19 @@ def main(rec_client_id):
 	task_2a.start_simulation()
 
 	#Retrieving vision sensor images
-	vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
+	#vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
 	vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
     
 	#Transforming image
-	transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
+	#transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
 	transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
 
 	#Warping transformed image
-	warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
+	#warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
 	warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
-    
+
 	#Extracting ball positions from image
-	shapes_1 = task_1a_part1.scan_image(warped_img_1)
+	#shapes_1 = task_1a_part1.scan_image(warped_img_1)
 	shapes_4 = task_1a_part1.scan_image(warped_img_4)
 
 	task_2a.stop_simulation()
