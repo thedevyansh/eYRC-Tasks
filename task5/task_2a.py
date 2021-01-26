@@ -188,7 +188,7 @@ def get_vision_sensor_image(vision_sensor_handle):
 	#sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 1, sim.simx_opmode_streaming)
 
 	while sim.simxGetConnectionId(client_id) != -1:
-		return_code, image_resolution, vision_sensor_image = sim.simxGetVisionSensorImage(client_id, 32 , 0, sim.simx_opmode_streaming)
+		return_code, image_resolution, vision_sensor_image = sim.simxGetVisionSensorImage(client_id, vision_sensor_handle , 0, sim.simx_opmode_buffer)
 		#print(return_code)
 		if return_code == sim.simx_return_ok:
 			return vision_sensor_image, image_resolution, return_code
@@ -280,7 +280,7 @@ def stop_simulation():
 	##############	ADD YOUR CODE HERE	##############
 	
 	sim.simxSynchronousTrigger(client_id)
-	#return_code = sim.simxStopSimulation(client_id, sim.simx_opmode_oneshot)
+	return_code = sim.simxStopSimulation(client_id, sim.simx_opmode_oneshot)
 	##################################################
 
 	return return_code
@@ -422,7 +422,7 @@ if __name__ == "__main__":
 	
 	# Get image array and its resolution from Vision Sensor in ComppeliaSim scene
 	try:
-		vision_sensor_image, image_resolution, return_code = get_vision_sensor_image()
+		vision_sensor_image, image_resolution, return_code = get_vision_sensor_image(30)
 
 		if ((return_code == sim.simx_return_ok) and (len(image_resolution) == 2) and (len(vision_sensor_image) > 0)):
 			print('\nImage captured from Vision Sensor in CoppeliaSim successfully!')

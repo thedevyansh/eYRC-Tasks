@@ -208,9 +208,12 @@ def main(rec_client_id):
 	client_id = rec_client_id
 
 	#Retrieving all the handles
-	vision_sensor_1 = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
-	vision_sensor_4 = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
 	task_3.init_setup(client_id)
+	return_code, vision_sensor_1 = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
+	return_code, vision_sensor_4 = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
+
+	print(vision_sensor_1, vision_sensor_4
+	)
 
 	#Reading maze images
 	table_1 = cv2.imread('maze_t1.jpg')
@@ -237,7 +240,6 @@ def main(rec_client_id):
 	#Starting simulation
 	task_2a.start_simulation()
 
-	"""
 	#Retrieving vision sensor images
 	vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
 	vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
@@ -253,7 +255,6 @@ def main(rec_client_id):
 	#Extracting ball positions from image
 	shapes_1 = task_1a_part1.scan_image(warped_img_1)
 	shapes_4 = task_1a_part1.scan_image(warped_img_4)
-	"""
 
 	task_2a.stop_simulation()
 
