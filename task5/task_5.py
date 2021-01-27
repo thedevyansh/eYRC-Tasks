@@ -41,105 +41,105 @@ import json
 
 # Importing the sim module for Remote API connection with CoppeliaSim
 try:
-	import sim
-	
+    import sim
+    
 except Exception:
-	print('\n[ERROR] It seems the sim.py OR simConst.py files are not found!')
-	print('\n[WARNING] Make sure to have following files in the directory:')
-	print('sim.py, simConst.py and appropriate library - remoteApi.dll (if on Windows), remoteApi.so (if on Linux) or remoteApi.dylib (if on Mac).\n')
-	
+    print('\n[ERROR] It seems the sim.py OR simConst.py files are not found!')
+    print('\n[WARNING] Make sure to have following files in the directory:')
+    print('sim.py, simConst.py and appropriate library - remoteApi.dll (if on Windows), remoteApi.so (if on Linux) or remoteApi.dylib (if on Mac).\n')
+    
 
 #Import 'task_1b.py' file as module
 try:
-	import task_1b
+    import task_1b
 
 except ImportError:
-	print('\n[ERROR] task_1b.py file is not present in the current directory.')
-	print('Your current directory is: ', os.getcwd())
-	print('Make sure task_1b.py is present in this current directory.\n')
-	
-	
+    print('\n[ERROR] task_1b.py file is not present in the current directory.')
+    print('Your current directory is: ', os.getcwd())
+    print('Make sure task_1b.py is present in this current directory.\n')
+    
+    
 except Exception as e:
-	print('Your task_1b.py throwed an Exception. Kindly debug your code!\n')
-	traceback.print_exc(file=sys.stdout)
-	
+    print('Your task_1b.py throwed an Exception. Kindly debug your code!\n')
+    traceback.print_exc(file=sys.stdout)
+    
 
 
 # Import 'task_1a_part1.py' file as module
 try:
-	import task_1a_part1
+    import task_1a_part1
 
 except ImportError:
-	print('\n[ERROR] task_1a_part1.py file is not present in the current directory.')
-	print('Your current directory is: ', os.getcwd())
-	print('Make sure task_1a_part1.py is present in this current directory.\n')
-	
-	
+    print('\n[ERROR] task_1a_part1.py file is not present in the current directory.')
+    print('Your current directory is: ', os.getcwd())
+    print('Make sure task_1a_part1.py is present in this current directory.\n')
+    
+    
 except Exception as e:
-	print('Your task_1a_part1.py throwed an Exception. Kindly debug your code!\n')
-	traceback.print_exc(file=sys.stdout)
-	
+    print('Your task_1a_part1.py throwed an Exception. Kindly debug your code!\n')
+    traceback.print_exc(file=sys.stdout)
+    
 
 
 # Import 'task_2a.py' file as module
 try:
-	import task_2a
+    import task_2a
 
 except ImportError:
-	print('\n[ERROR] task_2a.py file is not present in the current directory.')
-	print('Your current directory is: ', os.getcwd())
-	print('Make sure task_2a.py is present in this current directory.\n')
-	
-	
+    print('\n[ERROR] task_2a.py file is not present in the current directory.')
+    print('Your current directory is: ', os.getcwd())
+    print('Make sure task_2a.py is present in this current directory.\n')
+    
+    
 except Exception as e:
-	print('Your task_2a.py throwed an Exception. Kindly debug your code!\n')
-	traceback.print_exc(file=sys.stdout)
-	
+    print('Your task_2a.py throwed an Exception. Kindly debug your code!\n')
+    traceback.print_exc(file=sys.stdout)
+    
 
 # Import 'task_2b.py' file as module
 try:
-	import task_2b
+    import task_2b
 
 except ImportError:
-	print('\n[ERROR] task_2b.py file is not present in the current directory.')
-	print('Your current directory is: ', os.getcwd())
-	print('Make sure task_2b.py is present in this current directory.\n')
-	
-	
+    print('\n[ERROR] task_2b.py file is not present in the current directory.')
+    print('Your current directory is: ', os.getcwd())
+    print('Make sure task_2b.py is present in this current directory.\n')
+    
+    
 except Exception as e:
-	print('Your task_2b.py throwed an Exception. Kindly debug your code!\n')
-	traceback.print_exc(file=sys.stdout)
-	
+    print('Your task_2b.py throwed an Exception. Kindly debug your code!\n')
+    traceback.print_exc(file=sys.stdout)
+    
 
 # Import 'task_3.py' file as module
 try:
-	import task_3
+    import task_3
 
 except ImportError:
-	print('\n[ERROR] task_3.py file is not present in the current directory.')
-	print('Your current directory is: ', os.getcwd())
-	print('Make sure task_3.py is present in this current directory.\n')
-	
+    print('\n[ERROR] task_3.py file is not present in the current directory.')
+    print('Your current directory is: ', os.getcwd())
+    print('Make sure task_3.py is present in this current directory.\n')
+    
 
 except Exception as e:
-	print('Your task_3.py throwed an Exception. Kindly debug your code!\n')
-	traceback.print_exc(file=sys.stdout)
-	
+    print('Your task_3.py throwed an Exception. Kindly debug your code!\n')
+    traceback.print_exc(file=sys.stdout)
+    
 
 
 # Import 'task_4a.py' file as module
 try:
-	import task_4a
+    import task_4a
 
 except ImportError:
-	print('\n[ERROR] task_4a.py file is not present in the current directory.')
-	print('Your current directory is: ', os.getcwd())
-	print('Make sure task_4a.py is present in this current directory.\n')
-	
-	
+    print('\n[ERROR] task_4a.py file is not present in the current directory.')
+    print('Your current directory is: ', os.getcwd())
+    print('Make sure task_4a.py is present in this current directory.\n')
+    
+    
 except Exception as e:
-	print('Your task_4a.py throwed an Exception. Kindly debug your code!\n')
-	traceback.print_exc(file=sys.stdout)
+    print('Your task_4a.py throwed an Exception. Kindly debug your code!\n')
+    traceback.print_exc(file=sys.stdout)
 
 ##############################################################
 
@@ -155,12 +155,12 @@ except Exception as e:
 #					   'color::collection_box_name'				   
 def send_color_and_collection_box_identified(ball_color, collection_box_name):
 
-	global client_id
+    global client_id
 
-	color_and_cb = ball_color + '::' + collection_box_name
-	inputBuffer = bytearray()
-	return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id,'evaluation_screen_respondable_1',
-							sim.sim_scripttype_childscript,'color_and_cb_identification',[],[],color_and_cb,inputBuffer,sim.simx_opmode_blocking)
+    color_and_cb = ball_color + '::' + collection_box_name
+    inputBuffer = bytearray()
+    return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id,'evaluation_screen_respondable_1',
+                            sim.sim_scripttype_childscript,'color_and_cb_identification',[],[],color_and_cb,inputBuffer,sim.simx_opmode_blocking)
 
 ################# ADD UTILITY FUNCTIONS HERE #################
 ## You can define any utility functions for your code.      ##
@@ -176,87 +176,130 @@ def send_color_and_collection_box_identified(ball_color, collection_box_name):
 
 
 def main(rec_client_id):
-	"""
-	Purpose:
-	---
+    """
+    Purpose:
+    ---
 
-	Teams are free to design their code in this task.
-	The test executable will only call this function of task_5.py.
-	init_remote_api_server() and exit_remote_api_server() functions are already defined
-	in the executable and hence should not be called by the teams.
-	The obtained client_id is passed to this function so that teams can use it in their code.
+    Teams are free to design their code in this task.
+    The test executable will only call this function of task_5.py.
+    init_remote_api_server() and exit_remote_api_server() functions are already defined
+    in the executable and hence should not be called by the teams.
+    The obtained client_id is passed to this function so that teams can use it in their code.
 
-	However NOTE:
-	Teams will have to call start_simulation() and stop_simulation() function on their own. 
+    However NOTE:
+    Teams will have to call start_simulation() and stop_simulation() function on their own. 
 
-	Input Arguments:
-	---
-	`rec_client_id` 	:  integer
-		client_id returned after calling init_remote_api_server() function from the executable.
-	
-	Returns:
-	---
-	None
-
-	Example call:
-	---
-	main(rec_client_id)
-	
-	"""
-	##############	ADD YOUR CODE HERE	##############
-
-	client_id = rec_client_id
-
-	#Retrieving all the handles
-	task_3.init_setup(client_id)
-	return_code, vision_sensor_1 = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
-	return_code, vision_sensor_4 = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
-	
-
-	#Reading maze images
-	table_1 = cv2.imread('maze_t1.jpg')
-	table_4 = cv2.imread('maze_t4.jpg')
-
-	#Warping the maze images
-	warped_img_1 = task_1b.applyPerspectiveTransform(table_1)
-	warped_img_4 = task_1b.applyPerspectiveTransform(table_4)
-
-	#Extracting maze arrays
-	maze_array_1 = task_1b.detectMaze(warped_img_1)
-	maze_array_4 = task_1b.detectMaze(warped_img_4)
-
-	#Modifiyng maze arrays
-	maze_array_1[0][4] -= 2
-	maze_array_1[4][9] -= 4
-	maze_array_1[9][5] -= 8
-	maze_array_4[5][9] -= 4
-	
-	#Sending maze array data to CoppeliaSim
-	return_code = task_2b.send_data(client_id, maze_array_1, 1)
-	return_code = task_2b.send_data(client_id, maze_array_4, 4)
-	
-	#Starting simulation
-	task_2a.start_simulation()
-
-	#Retrieving vision sensor images
-	#vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
-	vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
+    Input Arguments:
+    ---
+    `rec_client_id` 	:  integer
+        client_id returned after calling init_remote_api_server() function from the executable.
     
-	#Transforming image
-	#transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
-	transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
+    Returns:
+    ---
+    None
 
-	#Warping transformed image
-	#warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
-	warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
+    Example call:
+    ---
+    main(rec_client_id)
+    
+    """
+    ##############	ADD YOUR CODE HERE	##############
 
-	#Extracting ball positions from image
-	#shapes_1 = task_1a_part1.scan_image(warped_img_1)
-	shapes_4 = task_1a_part1.scan_image(warped_img_4)
+    client_id = rec_client_id
 
-	task_2a.stop_simulation()
+    """Retrieving all the handles"""
+    task_3.init_setup(client_id)
+    return_code, vision_sensor_1 = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
+    return_code, vision_sensor_4 = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
+    
 
-	##################################################
+    """Reading maze images"""
+    table_1 = cv2.imread('maze_t1.jpg')
+    table_4 = cv2.imread('maze_t4.jpg')
+
+    """Warping the maze images"""
+    warped_img_1 = task_1b.applyPerspectiveTransform(table_1)
+    warped_img_4 = task_1b.applyPerspectiveTransform(table_4)
+
+    """Extracting maze arrays"""
+    maze_array_1 = task_1b.detectMaze(warped_img_1)
+    maze_array_4 = task_1b.detectMaze(warped_img_4)
+
+    """Modifiyng maze arrays"""
+    maze_array_1[0][4] -= 2
+    maze_array_1[4][9] -= 4
+    maze_array_1[9][5] -= 8
+    maze_array_4[5][9] -= 4
+    
+    """Sending maze array data to CoppeliaSim"""
+    return_code = task_2b.send_data(client_id, maze_array_1, 1)
+    return_code = task_2b.send_data(client_id, maze_array_4, 4)
+
+    """Defining start and end coords for the different tables"""
+    #t1_start = (5, 0)
+    #t1_end = (4, 9)
+    t4_start = (0, 5)
+    t4_end = (5, 9)
+
+    """Finding path for the tables"""
+    #path_1 = task_4a.find_path(maze_array_1, t1_start, t1_end)
+    path_4 = task_4a.find_path(maze_array_4, t4_start, t4_end)
+    
+    """Starting simulation"""
+    task_2a.start_simulation()
+
+    """Retrieving vision sensor images"""
+    #vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
+    vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
+    
+    """Transforming image"""
+    #transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
+    transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
+
+    """Warping transformed image"""
+    #warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
+    warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
+
+    """Extracting ball positions from image"""
+    #shapes_1 = task_1a_part1.scan_image(warped_img_1)
+    shapes_4 = task_1a_part1.scan_image(warped_img_4)
+
+    i = 0
+    while( i < 1000):
+        """Retrieving vision sensor images"""
+        #vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
+        vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
+    
+        """#Transforming image"""
+        #transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
+        transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
+
+        """Warping transformed image"""
+        #warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
+        warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
+
+        """Extracting ball positions from image"""
+        #shapes_1 = task_1a_part1.scan_image(warped_img_1)
+        shapes_4 = task_1a_part1.scan_image(warped_img_4)
+
+        
+        #print(len(shapes_4['Circle']))
+        if(len(shapes_4['Circle']) != 0):
+            cx_4 = shapes_4['Circle'][1]
+            cy_4 = shapes_4['Circle'][2]
+            task_3.control_logic(cx_4, cy_4)
+
+        """
+        if(len(shapes_1['Circle']) != 0):
+            cx_1 = shapes_4['Circle'][1]
+            cy_1 = shapes_4['Circle'][2]
+            task_3.control_logic(cx_1, cy_1)
+        """
+        i += 1
+
+    task_2a.stop_simulation()
+
+    ##################################################
 
 
 # Function Name:    main (built in)
@@ -268,5 +311,5 @@ def main(rec_client_id):
 # NOTE: Write your solution ONLY in the space provided in the above functions. This function should not be edited.
 if __name__ == "__main__":
 
-	client_id = task_2a.init_remote_api_server()
-	main(client_id)
+    client_id = task_2a.init_remote_api_server()
+    main(client_id)
