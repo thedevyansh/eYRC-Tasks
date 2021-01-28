@@ -136,8 +136,8 @@ def scan_image(original_img):
 
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
 
-    cv2.imshow("ret", mask)
-    cv2.waitKey(0)
+    #cv2.imshow("ret", mask)
+    #cv2.waitKey(0)
 
     _, threshold = cv2.threshold(grayscale_img, 200, 255, cv2.THRESH_BINARY)
     #cv2.imshow("ret",threshold)

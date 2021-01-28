@@ -122,6 +122,7 @@ def init_setup(rec_client_id):
     global x_motor1_t1, x_motor2_t1, y_motor1_t1, y_motor2_t1, x_motor1_t4, x_motor2_t4, y_motor1_t4, y_motor2_t4
     return_code = 0
 
+
     
 
     return_code, x_motor1_t1 = sim.simxGetObjectHandle(client_id, 'revolute_joint_ss_t1_1', sim.simx_opmode_blocking)
@@ -228,15 +229,18 @@ def control_logic(center_x, center_y):
     lastInputY = inputY
     previous_time = current_time
 
-    print(x_motor1_t1,x_motor1_t4,x_motor2_t1,x_motor2_t4,y_motor1_t1,y_motor1_t4,y_motor2_t1,y_motor2_t4)
+    #print(x_motor1_t1,x_motor1_t4,x_motor2_t1,x_motor2_t4,y_motor1_t1,y_motor1_t4,y_motor2_t1,y_motor2_t4)
     
-    print(px, py)
+    #print(px, py)
     sim.simxPauseCommunication(client_id, 1)
-    sim.simxSetJointTargetPosition(client_id, x_motor1_t4, px, sim.simx_opmode_oneshot)
-    sim.simxSetJointTargetPosition(client_id, y_motor1_t4, py, sim.simx_opmode_oneshot)
-    sim.simxSetJointTargetPosition(client_id, x_motor2_t4, px, sim.simx_opmode_oneshot)
-    sim.simxSetJointTargetPosition(client_id, y_motor2_t4, py, sim.simx_opmode_oneshot)
-
+    return_code = sim.simxSetJointTargetPosition(client_id, x_motor1_t1, px, sim.simx_opmode_oneshot)
+    print(return_code)
+    return_code = sim.simxSetJointTargetPosition(client_id, y_motor1_t1, py, sim.simx_opmode_oneshot)
+    print(return_code)
+    return_code = sim.simxSetJointTargetPosition(client_id, x_motor2_t1, px, sim.simx_opmode_oneshot)
+    print(return_code)
+    return_code = sim.simxSetJointTargetPosition(client_id, y_motor2_t1, py, sim.simx_opmode_oneshot)
+    print(return_code)
     sim.simxPauseCommunication(client_id, 0)
 
     count += 1

@@ -235,7 +235,7 @@ def send_data(cid, maze_array, tag):
     sim.simxSynchronousTrigger(client_id)
     maze_array = list(np.concatenate(maze_array).flat)
     
-    passobject = 'top_plate_respondable_' + tag + '_1'
+    passobject = 'top_plate_respondable_t' + str(tag) + '_1'
     inputBuffer = bytearray()
 
     return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(cid, passobject, sim.sim_scripttype_customizationscript,
