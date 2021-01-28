@@ -61,7 +61,7 @@ client_id = -1
 ## readable and easy to understand.                         ##
 ##############################################################
 
-vision_sensor_handle = 0
+
 
 
 
@@ -141,14 +141,15 @@ def start_simulation():
 	return_code = 0
 
 	##############	ADD YOUR CODE HERE	##############
+
 	return_code = sim.simxStartSimulation(client_id, sim.simx_opmode_oneshot)
+
 	##################################################
 
 	return return_code
 
-	
 
-def get_vision_sensor_image():
+def get_vision_sensor_image(vision_sensor_handle):
 	
 	"""
 	Purpose:
@@ -183,13 +184,11 @@ def get_vision_sensor_image():
 	return_code = 0
 
 	##############	ADD YOUR CODE HERE	##############
-	#return_code,vision_sensor_handle = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_buffer)
-	#print(return_code, vision_sensor_handle)
-	#sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 1, sim.simx_opmode_streaming)
+
+	sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 0, sim.simx_opmode_streaming)
 
 	while sim.simxGetConnectionId(client_id) != -1:
-		return_code, image_resolution, vision_sensor_image = sim.simxGetVisionSensorImage(client_id, 30 , 1, sim.simx_opmode_streaming)
-		print(return_code)
+		return_code, image_resolution, vision_sensor_image = sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 0, sim.simx_opmode_buffer)
 		if return_code == sim.simx_return_ok:
 			return vision_sensor_image, image_resolution, return_code
 	##################################################
@@ -241,8 +240,6 @@ def transform_vision_sensor_image(vision_sensor_image, image_resolution):
 	#img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 	img = cv2.flip(img, 0)
 	transformed_image = img
-	cv2.imshow("ret", transformed_image)
-	cv2.waitKey(0)
 	##################################################
 	
 	return transformed_image
@@ -422,7 +419,7 @@ if __name__ == "__main__":
 	
 	# Get image array and its resolution from Vision Sensor in ComppeliaSim scene
 	try:
-		vision_sensor_image, image_resolution, return_code = get_vision_sensor_image()
+		vision_sensor_image, image_resolution, return_code = get_vision_sensor_image(19)
 
 		if ((return_code == sim.simx_return_ok) and (len(image_resolution) == 2) and (len(vision_sensor_image) > 0)):
 			print('\nImage captured from Vision Sensor in CoppeliaSim successfully!')
