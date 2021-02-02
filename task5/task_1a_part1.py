@@ -131,15 +131,15 @@ def scan_image(original_img):
 
     hsv = cv2.cvtColor(original_img, cv2.COLOR_BGR2HSV)
 
-    lower_bound = np.array([36,25,25])
+    lower_bound = np.array([25,20,20])
     upper_bound = np.array([86,255,255])
 
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
-
+    
     #cv2.imshow("ret", mask)
-    #cv2.waitKey(0)
+    #cv2.waitKey(1)
 
-    _, threshold = cv2.threshold(grayscale_img, 200, 255, cv2.THRESH_BINARY)
+    #_, threshold = cv2.threshold(grayscale_img, 200, 255, cv2.THRESH_BINARY)
     #cv2.imshow("ret",threshold)
     #cv2.waitKey(0)
     contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -149,11 +149,11 @@ def scan_image(original_img):
 
     for cnt in contours:
 
-        if cv2.contourArea(cnt) > (0.995 * width * height) or cv2.contourArea(cnt) < 500: #this is used to exclude parent element from being considered as a contour
+        if cv2.contourArea(cnt) > (0.995 * width * height): #this is used to exclude parent element from being considered as a contour
             continue
-        approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
+        #approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
         #print(cv2.contourArea(cnt))
-
+        #print(cv2.contourArea(cnt))
         x, y, w, h = cv2.boundingRect(cnt)
 
         cx = int(x + w / 2)

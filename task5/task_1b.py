@@ -151,6 +151,7 @@ def applyPerspectiveTransform(input_img):
         #print(dimensions)
         side = 800
         pts1 = np.float32([[minx, miny], [maxx, miny], [minx, maxy], [maxx, maxy]])
+        #print(pts1)
         pts2 = np.float32([[0, 0], [side, 0], [0, side], [side, side]])
         matrix = cv2.getPerspectiveTransform(pts1, pts2) #Getting perspective transform
         warped_img = cv2.warpPerspective(img, matrix, (side, side)) #Applying warp perspective
