@@ -60,7 +60,7 @@ def edge_values(img):
     y = img.shape[0] #height of the image
     x = img.shape[1] #width of the image
     
-    B_left, G_left, R_left = (img[int(y / 2), 8]) #BGR of the left mid_point	
+    B_left, G_left, R_left = (img[int(y / 2), 6]) #BGR of the left mid_point	
     B_top, G_top, R_top = (img[2, int(x / 2)]) #BGR of top mid_point
     B_right, G_right, R_right = (img[int(y / 2), x - 2]) #BGR of right mid_point
     B_bottom, G_bottom, R_bottom = (img[y - 2, int(x / 2)]) #BGR of bottom_midpoint
