@@ -103,26 +103,6 @@ def path_planning(current_cell, visited, maze_array, path):
 
     current_cell_weight = maze_array[current_cell[0]][current_cell[1]]
 
-    # left wall
-    if not does_wall_exist(0, current_cell_weight):
-        if not visited[current_cell[0]][current_cell[1]-1]:
-            path = path_planning(
-                (current_cell[0], current_cell[1]-1), visited, maze_array, path)
-
-            if path is not None:
-                path.insert(0, current_cell)
-                return path
-
-    # top wall
-    if not does_wall_exist(1, current_cell_weight):
-        if not visited[current_cell[0]-1][current_cell[1]]:
-            path = path_planning(
-                (current_cell[0]-1, current_cell[1]), visited, maze_array, path)
-
-            if path is not None:
-                path.insert(0, current_cell)
-                return path
-
     # right wall
     if not does_wall_exist(2, current_cell_weight):
         if not visited[current_cell[0]][current_cell[1]+1]:
@@ -138,6 +118,26 @@ def path_planning(current_cell, visited, maze_array, path):
         if not visited[current_cell[0]+1][current_cell[1]]:
             path = path_planning(
                 (current_cell[0]+1, current_cell[1]), visited, maze_array, path)
+
+            if path is not None:
+                path.insert(0, current_cell)
+                return path
+
+    # left wall
+    if not does_wall_exist(0, current_cell_weight):
+        if not visited[current_cell[0]][current_cell[1]-1]:
+            path = path_planning(
+                (current_cell[0], current_cell[1]-1), visited, maze_array, path)
+
+            if path is not None:
+                path.insert(0, current_cell)
+                return path
+
+    # top wall
+    if not does_wall_exist(1, current_cell_weight):
+        if not visited[current_cell[0]-1][current_cell[1]]:
+            path = path_planning(
+                (current_cell[0]-1, current_cell[1]), visited, maze_array, path)
 
             if path is not None:
                 path.insert(0, current_cell)
