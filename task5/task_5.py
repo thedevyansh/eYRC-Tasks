@@ -175,6 +175,7 @@ def convert_path_to_pixels(path):
         temp = ()
         for elem in duo:
             elem = elem * 80 + 40
+            elem = int(elem + (1 / 9) * (400 - elem))
             temp = temp + (elem, )
         #print(temp)
         pixel_path.append(temp)	
@@ -301,13 +302,13 @@ def main(rec_client_id):
             #print(17)
             cx_4 = shapes_4['Circle'][1]
             cy_4 = shapes_4['Circle'][2]
-            check_x1 = abs(cx_4 - (t4_end[1] * 80 + 80))
-            check_y1 = abs(cy_4 - (t4_end[0] * 80 + 40))
+            check_x1 = abs(cx_4 - (t4_end[1] * 80))
+            check_y1 = abs(cy_4 - (t4_end[0] * 80))
             #print(check_x1, check_y1)
             j = 1
             while not(check_x1 <= 40 and check_y1 <= 40):
                 check_x2 = abs(cx_4 - pixel_path_4[j][1])
-                check_y2 = abs(cy_4 - pixel_path_4[j][0] + 40)
+                check_y2 = abs(cy_4 - pixel_path_4[j][0])
                 #print(check_x2, check_y2)
                 while not(check_x2 <= 40 and check_y2 <= 40):
                     #print(check_x2, check_y2)
@@ -322,7 +323,7 @@ def main(rec_client_id):
                     """Extracting ball positions from image"""
                     shapes_4 = task_1a_part1.scan_image(warped_img_4)
 
-                    nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0] + 40]
+                    nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
                     task_3.change_setpoint(nextsetpt)
                     cx_4 = shapes_4['Circle'][1]
                     cy_4 = shapes_4['Circle'][2]

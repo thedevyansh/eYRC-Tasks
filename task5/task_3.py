@@ -191,14 +191,14 @@ def control_logic(center_x, center_y):
     inputX = center_x
     inputY = center_y
 
-    #print(setpoint, center_x, center_y)
+    print(setpoint, center_x, center_y)
     current_time = int(round(time.time() * 1000))
     timeChange = 1
     Kpx = 1.57 * 0.4 * 8 / 640 # to be changed to 1.57 * 0.35 * 8 / 640 if run without executable
     Kpy = 1.57 * 1.5 * 8 / 640 # to be changed to 1.57 * 0.30 * 8 / 640 if run without executable
     
-    Kdx = 1.57 * 3.0 * timeChange / 26 # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
-    Kdy = 1.57 * 3.0 * timeChange / 26 # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
+    Kdx = 1.57 * 12.0 * timeChange / 26 # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
+    Kdy = 1.57 * 12.0 * timeChange / 26 # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
 
     current_error_x = center_x - setpoint[0]
     current_error_y = center_y - setpoint[1]
