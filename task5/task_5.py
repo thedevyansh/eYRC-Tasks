@@ -254,6 +254,7 @@ def main(rec_client_id):
     path_1 = task_4a.find_path(maze_array_1, t1_start, t1_end)
     path_4 = task_4a.find_path(maze_array_4, t4_start, t4_end)
     print(path_4)
+    print(path_1)
     #print(8)
     pixel_path_1 = convert_path_to_pixels(path_1)
     pixel_path_4 = convert_path_to_pixels(path_4)
@@ -308,9 +309,9 @@ def main(rec_client_id):
             check_y1 = abs(cy_4 - (t4_end[0] * 80))
 
             init = 0
-            task_3.change_setpoint([400, -200])
+            task_3.change_setpoint([400, -100])
 
-            while(init < 10):
+            while(init < 5):
                 
                 task_3.control_logic(400, 0, 0)
                 init += 1
@@ -364,7 +365,7 @@ def main(rec_client_id):
                 init += 1
             #print(check_x1, check_y1)
             j = 1
-            while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_4):
+            while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_1):
                 check_x2 = abs(cx_1 - pixel_path_1[j][1])
                 check_y2 = abs(cy_1 - pixel_path_1[j][0])
                 #print(check_x2, check_y2)
@@ -392,7 +393,7 @@ def main(rec_client_id):
                     task_3.control_logic(cx_1, cy_1, 1)
                     check_x2 = abs(cx_1 - nextsetpt[0])
                     check_y2 = abs(cy_1 - nextsetpt[1])
-                    #print(check_y2)
+                    
                 j += 1
 
     task_2a.stop_simulation()

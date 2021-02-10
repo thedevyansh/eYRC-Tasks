@@ -68,16 +68,16 @@ def edge_values(img):
     value = 0 #Initialization of cell value 
     
     #Conditions to check if the pixel is black or not
-    if B_left < 160 and G_left <160 and R_left<160:
+    if B_left < 155 and G_left <155 and R_left<155:
         value = value + 2**0
 
-    if B_top < 160 and G_top <160 and R_top<160:
+    if B_top < 155 and G_top <155 and R_top<155:
         value = value + 2**1
     
-    if B_right < 160 and G_right <160 and R_right<160:
+    if B_right < 155 and G_right <155 and R_right<155:
         value = value + 2**2
 
-    if B_bottom < 160 and G_bottom <160 and R_bottom<150:
+    if B_bottom < 155 and G_bottom <155 and R_bottom<155:
         value = value + 2**3
         
     return value
