@@ -317,10 +317,34 @@ def main(rec_client_id):
                 init += 1
             #print(check_x1, check_y1)
             j = 1
+
+            ###################################################################################
+            ###########################################################
+            ############## CHECK THIS @SHIKHHAR ########################
+            destination_cell = [t4_end[1] * 80, t4_end[0] * 80]
+
             while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_4):
-                check_x2 = abs(cx_4 - pixel_path_4[j][1])
-                check_y2 = abs(cy_4 - pixel_path_4[j][0])
-                #print(check_x2, check_y2)
+                next = [pixel_path_4[j][1], pixel_path_4[j][0]]
+
+                if next != destination_cell:
+                    while (next[0] == pixel_path_4[j-1][1] and next[0] == pixel_path_4[j+1][1]) or (next[1] == pixel_path_4[j-1][0] and next[1] == pixel_path_4[j+1][0]):
+
+                        j += 1
+                        next = [pixel_path_4[j][1], pixel_path_4[j][0]]
+
+                        if next == destination_cell:
+                            break
+
+                task_3.change_setpoint(next)
+                j += 1
+
+                check_x2 = abs(cx_4 - next[0])
+                check_y2 = abs(cy_4 - next[1])
+
+                ####################### CHECK TILL HERE #####################
+                ##############################################################
+                ##############################################################[0])
+
                 while not(check_x2 <= 20 and check_y2 <= 20):
                     #print(check_x2, check_y2)
                     #print("inner loop")
@@ -334,19 +358,19 @@ def main(rec_client_id):
                     """Extracting ball positions from image"""
                     shapes_4 = task_1a_part1.scan_image(warped_img_4)
 
-                    nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
+                    #nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
 
                     if(j == len(pixel_path_4) - 1):
                         nextsetpt[0] = 800
                     
-                    task_3.change_setpoint(nextsetpt)
+                    #task_3.change_setpoint(nextsetpt)
                     cx_4 = shapes_4['Circle'][1]
                     cy_4 = shapes_4['Circle'][2]
                     task_3.control_logic(cx_4, cy_4, 0)
-                    check_x2 = abs(cx_4 - nextsetpt[0])
-                    check_y2 = abs(cy_4 - nextsetpt[1])
+                    check_x2 = abs(cx_4 - next[0])
+                    check_y2 = abs(cy_4 - next[1])
                     #print(check_y2)
-                j += 1
+                #j += 1
             f4 = True
 
         
