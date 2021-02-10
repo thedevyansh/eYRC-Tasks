@@ -142,7 +142,7 @@ previous_time = 0
 lastInputX = 0
 lastInputY = 0
 
-def control_logic(center_x, center_y):
+def control_logic(center_x, center_y, tag):
     """
     Purpose:
     ---
@@ -188,10 +188,15 @@ def control_logic(center_x, center_y):
     global x_motor1_t1, x_motor2_t1, y_motor1_t1, y_motor2_t1, x_motor1_t4, x_motor2_t4, y_motor1_t4, y_motor2_t4, count
     global previous_time, lastInputX, lastInputY
 
+    x_motors1 = [x_motor1_t4, x_motor1_t1]
+    x_motors2 = [x_motor2_t4, x_motor2_t1]
+    y_motors1 = [y_motor1_t4, y_motor1_t1]
+    y_motors2 = [y_motor2_t4, y_motor2_t1]
+
     inputX = center_x
     inputY = center_y
 
-    print(setpoint, center_x, center_y)
+    print(x_motors1[tag], x_motors2[tag], y_motors1[tag], y_motors2[tag])
     current_time = int(round(time.time() * 1000))
     timeChange = 1
     Kpx = 1.57 * 0.4 * 8 / 640 # to be changed to 1.57 * 0.35 * 8 / 640 if run without executable
@@ -236,13 +241,13 @@ def control_logic(center_x, center_y):
     #py = 0
 
     sim.simxPauseCommunication(client_id, 1)
-    return_code = sim.simxSetJointTargetPosition(client_id, x_motor1_t4, px, sim.simx_opmode_oneshot)
+    return_code = sim.simxSetJointTargetPosition(client_id, x_motors1[tag], px, sim.simx_opmode_oneshot)
     #print(return_code)
-    return_code = sim.simxSetJointTargetPosition(client_id, y_motor1_t4, py, sim.simx_opmode_oneshot)
+    return_code = sim.simxSetJointTargetPosition(client_id, y_motors1[tag], py, sim.simx_opmode_oneshot)
     #print(return_code)
-    return_code = sim.simxSetJointTargetPosition(client_id, x_motor2_t4, px, sim.simx_opmode_oneshot)
+    return_code = sim.simxSetJointTargetPosition(client_id, x_motors2[tag], px, sim.simx_opmode_oneshot)
     #print(return_code)
-    return_code = sim.simxSetJointTargetPosition(client_id, y_motor2_t4, py, sim.simx_opmode_oneshot)
+    return_code = sim.simxSetJointTargetPosition(client_id, y_motors2[tag], py, sim.simx_opmode_oneshot)
     #print(return_code)
     sim.simxPauseCommunication(client_id, 0)
 

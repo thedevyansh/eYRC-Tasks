@@ -175,7 +175,7 @@ def convert_path_to_pixels(path):
         temp = ()
         for elem in duo:
             elem = elem * 80 + 40
-            elem = int(elem + (1 / 9) * (400 - elem))
+            elem = int(elem + (1 / 12) * (400 - elem))
             temp = temp + (elem, )
         #print(temp)
         pixel_path.append(temp)	
@@ -282,35 +282,45 @@ def main(rec_client_id):
     cy_4 = 0
     #print(15)
     flag = True
+    f4 = False
     while(flag):
-        #print(16)
-        #vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
+        
+        vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
         vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
-        #print(11)
+        
         """#Transforming image"""
-        #transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
+        transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
         transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
-        #print(12)
+        
         """Warping transformed image"""
-        #warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
+        warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
         warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
-        #print(13)
+        
         """Extracting ball positions from image"""
-        #shapes_1 = task_1a_part1.scan_image(warped_img_1)
+        shapes_1 = task_1a_part1.scan_image(warped_img_1)
         shapes_4 = task_1a_part1.scan_image(warped_img_4)
-        if(len(shapes_4['Circle']) != 0):
+        
+        if(len(shapes_4['Circle']) != 0 and f4 == False):
             #print(17)
             cx_4 = shapes_4['Circle'][1]
             cy_4 = shapes_4['Circle'][2]
             check_x1 = abs(cx_4 - (t4_end[1] * 80))
             check_y1 = abs(cy_4 - (t4_end[0] * 80))
+
+            init = 0
+            task_3.change_setpoint([400, -200])
+
+            while(init < 10):
+                
+                task_3.control_logic(400, 0, 0)
+                init += 1
             #print(check_x1, check_y1)
             j = 1
-            while not(check_x1 <= 40 and check_y1 <= 40):
+            while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_4):
                 check_x2 = abs(cx_4 - pixel_path_4[j][1])
                 check_y2 = abs(cy_4 - pixel_path_4[j][0])
                 #print(check_x2, check_y2)
-                while not(check_x2 <= 40 and check_y2 <= 40):
+                while not(check_x2 <= 20 and check_y2 <= 20):
                     #print(check_x2, check_y2)
                     #print("inner loop")
                     vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
@@ -324,20 +334,66 @@ def main(rec_client_id):
                     shapes_4 = task_1a_part1.scan_image(warped_img_4)
 
                     nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
+
+                    if(j == len(pixel_path_4) - 1):
+                        nextsetpt[0] = 800
+                    
                     task_3.change_setpoint(nextsetpt)
                     cx_4 = shapes_4['Circle'][1]
                     cy_4 = shapes_4['Circle'][2]
-                    task_3.control_logic(cx_4, cy_4)
+                    task_3.control_logic(cx_4, cy_4, 0)
                     check_x2 = abs(cx_4 - nextsetpt[0])
                     check_y2 = abs(cy_4 - nextsetpt[1])
                     #print(check_y2)
                 j += 1
+            f4 = True
 
         
         if(len(shapes_1['Circle']) != 0):
             cx_1 = shapes_1['Circle'][1]
             cy_1 = shapes_1['Circle'][2]
-            task_3.control_logic(cx_1, cy_1)
+            check_x1 = abs(cx_1 - (t1_end[1] * 80))
+            check_y1 = abs(cy_1 - (t1_end[0] * 80))
+
+            init = 0
+            task_3.change_setpoint([-100, 0])
+
+            while(init < 10):
+                
+                task_3.control_logic(0, 0, 1)
+                init += 1
+            #print(check_x1, check_y1)
+            j = 1
+            while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_4):
+                check_x2 = abs(cx_1 - pixel_path_1[j][1])
+                check_y2 = abs(cy_1 - pixel_path_1[j][0])
+                #print(check_x2, check_y2)
+                while not(check_x2 <= 20 and check_y2 <= 20):
+                    #print(check_x2, check_y2)
+                    #print("inner loop")
+                    vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
+                    """#Transforming image"""
+                    transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
+                    """Warping transformed image"""
+                    warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
+                    cv2.imshow("ret", warped_img_1)
+                    cv2.waitKey(1)
+                    """Extracting ball positions from image"""
+                    shapes_1 = task_1a_part1.scan_image(warped_img_1)
+
+                    nextsetpt = [pixel_path_1[j][1], pixel_path_1[j][0]]
+
+                    if(j == len(pixel_path_1) - 1):
+                        nextsetpt[0] = 800
+                    
+                    task_3.change_setpoint(nextsetpt)
+                    cx_1 = shapes_1['Circle'][1]
+                    cy_1 = shapes_1['Circle'][2]
+                    task_3.control_logic(cx_1, cy_1, 1)
+                    check_x2 = abs(cx_1 - nextsetpt[0])
+                    check_y2 = abs(cy_1 - nextsetpt[1])
+                    #print(check_y2)
+                j += 1
 
     task_2a.stop_simulation()
 
