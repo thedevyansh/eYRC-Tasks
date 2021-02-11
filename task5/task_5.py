@@ -20,9 +20,9 @@
 # Team ID:          [ Team-ID ]
 # Author List:      [ Names of team members worked on this file separated by Comma: Name1, Name2, ... ]
 # Filename:         task_5.py
-# Functions:        
+# Functions:
 #                   [ Comma separated list of functions in this file ]
-# Global variables: 
+# Global variables:
 # 					[ List of global variables defined in this file ]
 
 # NOTE: Make sure you do NOT call sys.exit() in this code.
@@ -32,7 +32,8 @@
 ##############################################################
 import numpy as np
 import cv2
-import os, sys
+import os
+import sys
 import traceback
 import time
 import math
@@ -42,14 +43,14 @@ import json
 # Importing the sim module for Remote API connection with CoppeliaSim
 try:
     import sim
-    
+
 except Exception:
     print('\n[ERROR] It seems the sim.py OR simConst.py files are not found!')
     print('\n[WARNING] Make sure to have following files in the directory:')
     print('sim.py, simConst.py and appropriate library - remoteApi.dll (if on Windows), remoteApi.so (if on Linux) or remoteApi.dylib (if on Mac).\n')
-    
 
-#Import 'task_1b.py' file as module
+
+# Import 'task_1b.py' file as module
 try:
     import task_1b
 
@@ -57,12 +58,11 @@ except ImportError:
     print('\n[ERROR] task_1b.py file is not present in the current directory.')
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_1b.py is present in this current directory.\n')
-    
-    
+
+
 except Exception as e:
     print('Your task_1b.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
-    
 
 
 # Import 'task_1a_part1.py' file as module
@@ -73,12 +73,11 @@ except ImportError:
     print('\n[ERROR] task_1a_part1.py file is not present in the current directory.')
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_1a_part1.py is present in this current directory.\n')
-    
-    
+
+
 except Exception as e:
     print('Your task_1a_part1.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
-    
 
 
 # Import 'task_2a.py' file as module
@@ -89,12 +88,12 @@ except ImportError:
     print('\n[ERROR] task_2a.py file is not present in the current directory.')
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_2a.py is present in this current directory.\n')
-    
-    
+
+
 except Exception as e:
     print('Your task_2a.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
-    
+
 
 # Import 'task_2b.py' file as module
 try:
@@ -104,12 +103,12 @@ except ImportError:
     print('\n[ERROR] task_2b.py file is not present in the current directory.')
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_2b.py is present in this current directory.\n')
-    
-    
+
+
 except Exception as e:
     print('Your task_2b.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
-    
+
 
 # Import 'task_3.py' file as module
 try:
@@ -119,12 +118,11 @@ except ImportError:
     print('\n[ERROR] task_3.py file is not present in the current directory.')
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_3.py is present in this current directory.\n')
-    
+
 
 except Exception as e:
     print('Your task_3.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
-    
 
 
 # Import 'task_4a.py' file as module
@@ -135,8 +133,8 @@ except ImportError:
     print('\n[ERROR] task_4a.py file is not present in the current directory.')
     print('Your current directory is: ', os.getcwd())
     print('Make sure task_4a.py is present in this current directory.\n')
-    
-    
+
+
 except Exception as e:
     print('Your task_4a.py throwed an Exception. Kindly debug your code!\n')
     traceback.print_exc(file=sys.stdout)
@@ -145,28 +143,29 @@ except Exception as e:
 
 
 # NOTE:	YOU ARE NOT ALLOWED TO MAKE ANY CHANGE TO THIS FUNCTION
-# 
+#
 # Function Name:    send_color_and_collection_box_identified
 #        Inputs:    ball_color and collection_box_name
 #       Outputs:    None
 #       Purpose:    1. This function should only be called when the task is being evaluated using
 # 					   test executable.
 #					2. The format to send the data is as follows:
-#					   'color::collection_box_name'				   
+#					   'color::collection_box_name'
 def send_color_and_collection_box_identified(ball_color, collection_box_name):
 
     global client_id
 
     color_and_cb = ball_color + '::' + collection_box_name
     inputBuffer = bytearray()
-    return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id,'evaluation_screen_respondable_1',
-                            sim.sim_scripttype_childscript,'color_and_cb_identification',[],[],color_and_cb,inputBuffer,sim.simx_opmode_blocking)
+    return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id, 'evaluation_screen_respondable_1',
+                                                                                        sim.sim_scripttype_childscript, 'color_and_cb_identification', [], [], color_and_cb, inputBuffer, sim.simx_opmode_blocking)
 
 ################# ADD UTILITY FUNCTIONS HERE #################
 ## You can define any utility functions for your code.      ##
 ## Please add proper comments to ensure that your code is   ##
 ## readable and easy to understand.                         ##
 ##############################################################
+
 
 def convert_path_to_pixels(path):
     pixel_path = []
@@ -177,8 +176,8 @@ def convert_path_to_pixels(path):
             elem = elem * 80 + 40
             elem = int(elem + (1 / 12) * (400 - elem))
             temp = temp + (elem, )
-        #print(temp)
-        pixel_path.append(temp)	
+        # print(temp)
+        pixel_path.append(temp)
     return pixel_path
 
 ##############################################################
@@ -202,7 +201,7 @@ def main(rec_client_id):
     ---
     `rec_client_id` 	:  integer
         client_id returned after calling init_remote_api_server() function from the executable.
-    
+
     Returns:
     ---
     None
@@ -210,7 +209,7 @@ def main(rec_client_id):
     Example call:
     ---
     main(rec_client_id)
-    
+
     """
     ##############	ADD YOUR CODE HERE	##############
 
@@ -218,91 +217,101 @@ def main(rec_client_id):
 
     """Retrieving all the handles"""
     task_3.init_setup(client_id)
-    return_code, vision_sensor_1 = sim.simxGetObjectHandle(client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
-    return_code, vision_sensor_4 = sim.simxGetObjectHandle(client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
-    
-    #print(1)
+    return_code, vision_sensor_1 = sim.simxGetObjectHandle(
+        client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
+    return_code, vision_sensor_4 = sim.simxGetObjectHandle(
+        client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
+
+    # print(1)
     """Reading maze images"""
     table_1 = cv2.imread('maze_t1.jpg')
     table_4 = cv2.imread('maze_t4.jpg')
-    #print(2)
+    # print(2)
     """Warping the maze images"""
     warped_img_1 = task_1b.applyPerspectiveTransform(table_1)
     warped_img_4 = task_1b.applyPerspectiveTransform(table_4)
-    #print(3)
+    # print(3)
     """Extracting maze arrays"""
     maze_array_1 = task_1b.detectMaze(warped_img_1)
     maze_array_4 = task_1b.detectMaze(warped_img_4)
-    #print(4)
+    # print(4)
     """Modifiyng maze arrays"""
     maze_array_1[0][4] -= 2
     maze_array_1[4][9] -= 4
     maze_array_1[9][5] -= 8
     maze_array_4[5][9] -= 4
-    #print(5)
+    # print(5)
     """Sending maze array data to CoppeliaSim"""
     return_code = task_2b.send_data(client_id, maze_array_1, 1)
     return_code = task_2b.send_data(client_id, maze_array_4, 4)
-    #print(6)
+    # print(6)
     """Defining start and end coords for the different tables"""
     t1_start = (5, 0)
     t1_end = (4, 9)
     t4_start = (0, 5)
     t4_end = (5, 9)
-    #print(7)
+    # print(7)
     """Finding path for the tables"""
     path_1 = task_4a.find_path(maze_array_1, t1_start, t1_end)
     path_4 = task_4a.find_path(maze_array_4, t4_start, t4_end)
     print(path_4)
     print(path_1)
-    #print(8)
+    # print(8)
     pixel_path_1 = convert_path_to_pixels(path_1)
     pixel_path_4 = convert_path_to_pixels(path_4)
-    #print(9)
+    # print(9)
     """Starting simulation"""
     task_2a.start_simulation()
-    #print(10)
+    # print(10)
     """Retrieving vision sensor images"""
-    vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
-    vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
-    #print(11)
+    vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(
+        vision_sensor_1)
+    vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(
+        vision_sensor_4)
+    # print(11)
     """#Transforming image"""
-    transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
-    transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
-    #print(12)
+    transformed_image_1 = task_2a.transform_vision_sensor_image(
+        vision_sensor_image_1, image_resolution_1)
+    transformed_image_4 = task_2a.transform_vision_sensor_image(
+        vision_sensor_image_4, image_resolution_4)
+    # print(12)
     """Warping transformed image"""
     warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
     warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
-    #print(13)
+    # print(13)
     """Extracting ball positions from image"""
     shapes_1 = task_1a_part1.scan_image(warped_img_1)
     shapes_4 = task_1a_part1.scan_image(warped_img_4)
-    #print(len(shapes_4['Circle'])
-    #print(14)
+    # print(len(shapes_4['Circle'])
+    # print(14)
     cx_4 = 0
     cy_4 = 0
-    #print(15)
+    # print(15)
     flag = True
     f4 = False
     while(flag):
-        
-        vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
-        vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
-        
+
+        vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(
+            vision_sensor_1)
+        vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(
+            vision_sensor_4)
+
         """#Transforming image"""
-        transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
-        transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
-        
+        transformed_image_1 = task_2a.transform_vision_sensor_image(
+            vision_sensor_image_1, image_resolution_1)
+        transformed_image_4 = task_2a.transform_vision_sensor_image(
+            vision_sensor_image_4, image_resolution_4)
+
         """Warping transformed image"""
         warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
         warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
-        
+
         """Extracting ball positions from image"""
         shapes_1 = task_1a_part1.scan_image(warped_img_1)
         shapes_4 = task_1a_part1.scan_image(warped_img_4)
-        
+
         if(len(shapes_4['Circle']) != 0 and f4 == False):
-            #print(17)
+            # print(17)
             cx_4 = shapes_4['Circle'][1]
             cy_4 = shapes_4['Circle'][2]
             check_x1 = abs(cx_4 - (t4_end[1] * 80))
@@ -312,22 +321,23 @@ def main(rec_client_id):
             task_3.change_setpoint([400, -100])
 
             while(init < 5):
-                
+
                 task_3.control_logic(400, 0, 0)
                 init += 1
             #print(check_x1, check_y1)
             j = 1
-
-            ###################################################################################
-            ###########################################################
-            ############## CHECK THIS @SHIKHHAR ########################
-            destination_cell = [t4_end[1] * 80, t4_end[0] * 80]
+            destination_cell = [t4_end[1]*80, t4_end[0]*80]
 
             while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_4):
+
                 next = [pixel_path_4[j][1], pixel_path_4[j][0]]
+                counter = 0
 
                 if next != destination_cell:
                     while (next[0] == pixel_path_4[j-1][1] and next[0] == pixel_path_4[j+1][1]) or (next[1] == pixel_path_4[j-1][0] and next[1] == pixel_path_4[j+1][0]):
+                        counter += 1
+                        if counter > 2:
+                            break
 
                         j += 1
                         next = [pixel_path_4[j][1], pixel_path_4[j][0]]
@@ -340,40 +350,39 @@ def main(rec_client_id):
 
                 check_x2 = abs(cx_4 - next[0])
                 check_y2 = abs(cy_4 - next[1])
-
-                ####################### CHECK TILL HERE #####################
-                ##############################################################
-                ##############################################################[0])
-
+                #print(check_x2, check_y2)
                 while not(check_x2 <= 20 and check_y2 <= 20):
                     #print(check_x2, check_y2)
                     #print("inner loop")
-                    vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(vision_sensor_4)
+                    vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(
+                        vision_sensor_4)
                     """#Transforming image"""
-                    transformed_image_4 = task_2a.transform_vision_sensor_image(vision_sensor_image_4, image_resolution_4)
+                    transformed_image_4 = task_2a.transform_vision_sensor_image(
+                        vision_sensor_image_4, image_resolution_4)
                     """Warping transformed image"""
-                    warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
-                    cv2.imshow("ret", warped_img_4)
-                    cv2.waitKey(1)
+                    warped_img_4 = task_1b.applyPerspectiveTransform(
+                        transformed_image_4)
+                    #cv2.imshow("ret", warped_img_4)
+                    # cv2.waitKey(1)
                     """Extracting ball positions from image"""
                     shapes_4 = task_1a_part1.scan_image(warped_img_4)
 
                     #nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
 
                     if(j == len(pixel_path_4) - 1):
-                        nextsetpt[0] = 800
-                    
+                        #nextsetpt[0] = 800
+                        next[0] = 800
+
                     #task_3.change_setpoint(nextsetpt)
                     cx_4 = shapes_4['Circle'][1]
                     cy_4 = shapes_4['Circle'][2]
                     task_3.control_logic(cx_4, cy_4, 0)
                     check_x2 = abs(cx_4 - next[0])
                     check_y2 = abs(cy_4 - next[1])
-                    #print(check_y2)
+                    # print(check_y2)
                 #j += 1
             f4 = True
 
-        
         if(len(shapes_1['Circle']) != 0):
             cx_1 = shapes_1['Circle'][1]
             cy_1 = shapes_1['Circle'][2]
@@ -384,7 +393,7 @@ def main(rec_client_id):
             task_3.change_setpoint([-100, 0])
 
             while(init < 10):
-                
+
                 task_3.control_logic(0, 0, 1)
                 init += 1
             #print(check_x1, check_y1)
@@ -396,13 +405,16 @@ def main(rec_client_id):
                 while not(check_x2 <= 20 and check_y2 <= 20):
                     #print(check_x2, check_y2)
                     #print("inner loop")
-                    vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(vision_sensor_1)
+                    vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(
+                        vision_sensor_1)
                     """#Transforming image"""
-                    transformed_image_1 = task_2a.transform_vision_sensor_image(vision_sensor_image_1, image_resolution_1)
+                    transformed_image_1 = task_2a.transform_vision_sensor_image(
+                        vision_sensor_image_1, image_resolution_1)
                     """Warping transformed image"""
-                    warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
-                    cv2.imshow("ret", warped_img_1)
-                    cv2.waitKey(1)
+                    warped_img_1 = task_1b.applyPerspectiveTransform(
+                        transformed_image_1)
+                    #cv2.imshow("ret", warped_img_1)
+                    # cv2.waitKey(1)
                     """Extracting ball positions from image"""
                     shapes_1 = task_1a_part1.scan_image(warped_img_1)
 
@@ -410,14 +422,14 @@ def main(rec_client_id):
 
                     if(j == len(pixel_path_1) - 1):
                         nextsetpt[0] = 800
-                    
+
                     task_3.change_setpoint(nextsetpt)
                     cx_1 = shapes_1['Circle'][1]
                     cy_1 = shapes_1['Circle'][2]
                     task_3.control_logic(cx_1, cy_1, 1)
                     check_x2 = abs(cx_1 - nextsetpt[0])
                     check_y2 = abs(cy_1 - nextsetpt[1])
-                    
+
                 j += 1
 
     task_2a.stop_simulation()
