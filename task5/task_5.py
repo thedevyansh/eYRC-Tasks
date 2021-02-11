@@ -6,12 +6,12 @@
 *        		===============================================
 *
 *  This script is to implement Task 5 of Nirikshak Bot (NB) Theme (eYRC 2020-21).
-*  
+*
 *  This software is made available on an "AS IS WHERE IS BASIS".
 *  Licensee/end user indemnifies and will keep e-Yantra indemnified from
-*  any and all claim(s) that emanate from the use of the Software or 
+*  any and all claim(s) that emanate from the use of the Software or
 *  breach of the terms of this agreement.
-*  
+*
 *  e-Yantra - An MHRD (now MOE) project under National Mission on Education using ICT (NMEICT)
 *
 *****************************************************************************************
@@ -180,6 +180,22 @@ def convert_path_to_pixels(path):
         pixel_path.append(temp)
     return pixel_path
 
+
+def send_data_to_draw_path(rec_client_id, path):
+    client_id = rec_client_id
+
+    coppelia_sim_coord_path = []
+
+    for coord in path:
+        for element in coord:
+            coppelia_sim_coord_path.append(((10*element) - 45)/100)
+
+    inputBuffer = bytearray()
+
+    return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id,
+                                                                                        'top_plate_respondable_t4_1', sim.sim_scripttype_customizationscript, 'drawPath', [],
+                                                                                        coppelia_sim_coord_path, [], inputBuffer, sim.simx_opmode_blocking)
+
 ##############################################################
 
 
@@ -195,7 +211,7 @@ def main(rec_client_id):
     The obtained client_id is passed to this function so that teams can use it in their code.
 
     However NOTE:
-    Teams will have to call start_simulation() and stop_simulation() function on their own. 
+    Teams will have to call start_simulation() and stop_simulation() function on their own.
 
     Input Arguments:
     ---
@@ -215,6 +231,32 @@ def main(rec_client_id):
 
     client_id = rec_client_id
 
+    # print(1)
+    """Reading maze images"""
+    table_1 = cv2.imread('maze_t1.jpg')
+    table_4 = cv2.imread('maze_t4.jpg')
+
+    """Warping the maze images"""
+    warped_img_1 = task_1b.applyPerspectiveTransform(table_1)
+    warped_img_4 = task_1b.applyPerspectiveTransform(table_4)
+
+    """Extracting maze arrays"""
+    maze_array_1 = task_1b.detectMaze(warped_img_1)
+    maze_array_4 = task_1b.detectMaze(warped_img_4)
+
+    """Modifiyng maze arrays"""
+    maze_array_1[0][4] -= 2
+    maze_array_1[4][9] -= 4
+    maze_array_1[9][5] -= 8
+    maze_array_4[5][9] -= 4
+
+    """Sending maze array data to CoppeliaSim"""
+    return_code = task_2b.send_data(client_id, maze_array_1, 1)
+    return_code = task_2b.send_data(client_id, maze_array_4, 4)
+
+    """Starting simulation"""
+    task_2a.start_simulation()
+
     """Retrieving all the handles"""
     task_3.init_setup(client_id)
     return_code, vision_sensor_1 = sim.simxGetObjectHandle(
@@ -222,71 +264,44 @@ def main(rec_client_id):
     return_code, vision_sensor_4 = sim.simxGetObjectHandle(
         client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
 
-    # print(1)
-    """Reading maze images"""
-    table_1 = cv2.imread('maze_t1.jpg')
-    table_4 = cv2.imread('maze_t4.jpg')
-    # print(2)
-    """Warping the maze images"""
-    warped_img_1 = task_1b.applyPerspectiveTransform(table_1)
-    warped_img_4 = task_1b.applyPerspectiveTransform(table_4)
-    # print(3)
-    """Extracting maze arrays"""
-    maze_array_1 = task_1b.detectMaze(warped_img_1)
-    maze_array_4 = task_1b.detectMaze(warped_img_4)
-    # print(4)
-    """Modifiyng maze arrays"""
-    maze_array_1[0][4] -= 2
-    maze_array_1[4][9] -= 4
-    maze_array_1[9][5] -= 8
-    maze_array_4[5][9] -= 4
-    # print(5)
-    """Sending maze array data to CoppeliaSim"""
-    return_code = task_2b.send_data(client_id, maze_array_1, 1)
-    return_code = task_2b.send_data(client_id, maze_array_4, 4)
-    # print(6)
     """Defining start and end coords for the different tables"""
     t1_start = (5, 0)
     t1_end = (4, 9)
     t4_start = (0, 5)
     t4_end = (5, 9)
-    # print(7)
+
     """Finding path for the tables"""
     path_1 = task_4a.find_path(maze_array_1, t1_start, t1_end)
     path_4 = task_4a.find_path(maze_array_4, t4_start, t4_end)
-    print(path_4)
-    print(path_1)
-    # print(8)
+
+    send_data_to_draw_path(client_id, path_4)
+
     pixel_path_1 = convert_path_to_pixels(path_1)
     pixel_path_4 = convert_path_to_pixels(path_4)
-    # print(9)
-    """Starting simulation"""
-    task_2a.start_simulation()
-    # print(10)
+
     """Retrieving vision sensor images"""
     vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(
         vision_sensor_1)
     vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(
         vision_sensor_4)
-    # print(11)
+
     """#Transforming image"""
     transformed_image_1 = task_2a.transform_vision_sensor_image(
         vision_sensor_image_1, image_resolution_1)
     transformed_image_4 = task_2a.transform_vision_sensor_image(
         vision_sensor_image_4, image_resolution_4)
-    # print(12)
+
     """Warping transformed image"""
     warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
     warped_img_4 = task_1b.applyPerspectiveTransform(transformed_image_4)
-    # print(13)
+
     """Extracting ball positions from image"""
     shapes_1 = task_1a_part1.scan_image(warped_img_1)
     shapes_4 = task_1a_part1.scan_image(warped_img_4)
-    # print(len(shapes_4['Circle'])
-    # print(14)
+
     cx_4 = 0
     cy_4 = 0
-    # print(15)
+
     flag = True
     f4 = False
     while(flag):
@@ -311,7 +326,7 @@ def main(rec_client_id):
         shapes_4 = task_1a_part1.scan_image(warped_img_4)
 
         if(len(shapes_4['Circle']) != 0 and f4 == False):
-            # print(17)
+
             cx_4 = shapes_4['Circle'][1]
             cy_4 = shapes_4['Circle'][2]
             check_x1 = abs(cx_4 - (t4_end[1] * 80))
@@ -324,7 +339,7 @@ def main(rec_client_id):
 
                 task_3.control_logic(400, 0, 0)
                 init += 1
-            #print(check_x1, check_y1)
+
             j = 1
             destination_cell = [t4_end[1]*80, t4_end[0]*80]
 
@@ -350,10 +365,9 @@ def main(rec_client_id):
 
                 check_x2 = abs(cx_4 - next[0])
                 check_y2 = abs(cy_4 - next[1])
-                #print(check_x2, check_y2)
+
                 while not(check_x2 <= 20 and check_y2 <= 20):
-                    #print(check_x2, check_y2)
-                    #print("inner loop")
+
                     vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(
                         vision_sensor_4)
                     """#Transforming image"""
@@ -362,25 +376,24 @@ def main(rec_client_id):
                     """Warping transformed image"""
                     warped_img_4 = task_1b.applyPerspectiveTransform(
                         transformed_image_4)
-                    #cv2.imshow("ret", warped_img_4)
-                    # cv2.waitKey(1)
+
                     """Extracting ball positions from image"""
                     shapes_4 = task_1a_part1.scan_image(warped_img_4)
 
-                    #nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
+                    # nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
 
                     if(j == len(pixel_path_4) - 1):
-                        #nextsetpt[0] = 800
+                        # nextsetpt[0] = 800
                         next[0] = 800
 
-                    #task_3.change_setpoint(nextsetpt)
+                    # task_3.change_setpoint(nextsetpt)
                     cx_4 = shapes_4['Circle'][1]
                     cy_4 = shapes_4['Circle'][2]
                     task_3.control_logic(cx_4, cy_4, 0)
                     check_x2 = abs(cx_4 - next[0])
                     check_y2 = abs(cy_4 - next[1])
-                    # print(check_y2)
-                #j += 1
+
+                # j += 1
             f4 = True
 
         if(len(shapes_1['Circle']) != 0):
@@ -396,15 +409,35 @@ def main(rec_client_id):
 
                 task_3.control_logic(0, 0, 1)
                 init += 1
-            #print(check_x1, check_y1)
+
             j = 1
+            destination_cell = [t1_end[1]*80, t1_end[0]*80]
+
             while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_1):
-                check_x2 = abs(cx_1 - pixel_path_1[j][1])
-                check_y2 = abs(cy_1 - pixel_path_1[j][0])
-                #print(check_x2, check_y2)
+
+                next = [pixel_path_1[j][1], pixel_path_1[j][0]]
+                counter = 0
+
+                if next != destination_cell:
+                    while (next[0] == pixel_path_1[j-1][1] and next[0] == pixel_path_1[j+1][1]) or (next[1] == pixel_path_1[j-1][0] and next[1] == pixel_path_1[j+1][0]):
+                        counter += 1
+                        if counter > 2:
+                            break
+
+                        j += 1
+                        next = [pixel_path_1[j][1], pixel_path_1[j][0]]
+
+                        if next == destination_cell:
+                            break
+
+                task_3.change_setpoint(next)
+                j += 1
+
+                check_x2 = abs(cx_1 - next[0])
+                check_y2 = abs(cy_1 - next[1])
+
                 while not(check_x2 <= 20 and check_y2 <= 20):
-                    #print(check_x2, check_y2)
-                    #print("inner loop")
+
                     vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(
                         vision_sensor_1)
                     """#Transforming image"""
@@ -413,24 +446,24 @@ def main(rec_client_id):
                     """Warping transformed image"""
                     warped_img_1 = task_1b.applyPerspectiveTransform(
                         transformed_image_1)
-                    #cv2.imshow("ret", warped_img_1)
-                    # cv2.waitKey(1)
+
                     """Extracting ball positions from image"""
                     shapes_1 = task_1a_part1.scan_image(warped_img_1)
 
-                    nextsetpt = [pixel_path_1[j][1], pixel_path_1[j][0]]
+                    #nextsetpt = [pixel_path_1[j][1], pixel_path_1[j][0]]
 
                     if(j == len(pixel_path_1) - 1):
-                        nextsetpt[0] = 800
+                        #nextsetpt[0] = 800
+                        next[0] = 800
 
-                    task_3.change_setpoint(nextsetpt)
+                    # task_3.change_setpoint(nextsetpt)
                     cx_1 = shapes_1['Circle'][1]
                     cy_1 = shapes_1['Circle'][2]
                     task_3.control_logic(cx_1, cy_1, 1)
-                    check_x2 = abs(cx_1 - nextsetpt[0])
-                    check_y2 = abs(cy_1 - nextsetpt[1])
+                    check_x2 = abs(cx_1 - next[0])
+                    check_y2 = abs(cy_1 - next[1])
 
-                j += 1
+                #j += 1
 
     task_2a.stop_simulation()
 
