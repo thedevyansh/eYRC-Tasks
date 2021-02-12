@@ -196,15 +196,15 @@ def control_logic(center_x, center_y, tag):
     inputX = center_x
     inputY = center_y
 
-    #print(setpoint, center_x, center_y)
+    print(setpoint, center_x, center_y)
     #print(x_motors1[tag], x_motors2[tag], y_motors1[tag], y_motors2[tag])
     current_time = int(round(time.time() * 1000))
     timeChange = 1
-    Kpx = 1.5 * 1.57 * 1.7 / 800  # to be changed to 1.57 * 0.35 * 8 / 640 if run without executable
-    Kpy = 1.5 * 1.57 * 1.7 / 800  # to be changed to 1.57 * 0.30 * 8 / 640 if run without executable
+    Kpx = 2 * 1.57 * 1.7 / 800  # to be changed to 1.57 * 0.35 * 8 / 640 if run without executable
+    Kpy = 1.7 * 1.57 * 1.7 / 800  # to be changed to 1.57 * 0.30 * 8 / 640 if run without executable
     
-    Kdx = 1.5 * 1.57 * 13 * timeChange / 26 # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
-    Kdy = 1.5 * 1.57 * 13 * timeChange / 26 # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
+    Kdx = 2.1 * 1.57 * 11 * timeChange # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
+    Kdy = 1.7 * 1.57 * 11 * timeChange # to be changed to 1.57 * 1.7 * timeChange / 26 if run without executable
 
     current_error_x = center_x - setpoint[0]
     current_error_y = center_y - setpoint[1]

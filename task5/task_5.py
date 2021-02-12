@@ -173,8 +173,8 @@ def convert_path_to_pixels(path):
     for duo in path:
         temp = ()
         for elem in duo:
-            elem = elem * 80 + 40
-            elem = int(elem + (1 / 9) * (400 - elem))
+            elem = (elem * 70 + 35) + 50
+            #elem = int(elem + (1 / 9) * (400 - elem))
             temp = temp + (elem, )
         # print(temp)
         pixel_path.append(temp)
@@ -333,7 +333,7 @@ def main(rec_client_id):
             check_y1 = abs(cy_4 - (t4_end[0] * 80))
 
             init = 0
-            task_3.change_setpoint([500, -200])
+            task_3.change_setpoint([500, -100])
 
             while(init < 5):
 
@@ -355,7 +355,10 @@ def main(rec_client_id):
 
                         if next == destination_cell:
                             break
-
+                
+                if(j >= len(pixel_path_4) - 1):
+                        # nextsetpt[0] = 800
+                        next[0] = 800
                 task_3.change_setpoint(next)
                 
                 check_x2 = abs(cx_4 - next[0])
@@ -377,9 +380,7 @@ def main(rec_client_id):
 
                     # nextsetpt = [pixel_path_4[j][1], pixel_path_4[j][0]]
 
-                    if(j == len(pixel_path_4) - 1):
-                        # nextsetpt[0] = 800
-                        next[0] = 800
+                    
 
                     # task_3.change_setpoint(nextsetpt)
                     cx_4 = shapes_4['Circle'][1]
