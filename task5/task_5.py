@@ -341,18 +341,14 @@ def main(rec_client_id):
                 init += 1
 
             j = 1
-            destination_cell = [t4_end[1]*80, t4_end[0]*80]
+            destination_cell = [pixel_path_4[len(pixel_path_4)-1][1], pixel_path_4[len(pixel_path_4)-1][0]]
 
             while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_4):
 
                 next = [pixel_path_4[j][1], pixel_path_4[j][0]]
-                counter = 0
 
                 if next != destination_cell:
                     while (next[0] == pixel_path_4[j-1][1] and next[0] == pixel_path_4[j+1][1]) or (next[1] == pixel_path_4[j-1][0] and next[1] == pixel_path_4[j+1][0]):
-                        counter += 1
-                        #if counter > 2:
-                        #    break
 
                         j += 1
                         next = [pixel_path_4[j][1], pixel_path_4[j][0]]
@@ -361,8 +357,7 @@ def main(rec_client_id):
                             break
 
                 task_3.change_setpoint(next)
-                j += 1
-
+                
                 check_x2 = abs(cx_4 - next[0])
                 check_y2 = abs(cy_4 - next[1])
 
@@ -393,7 +388,7 @@ def main(rec_client_id):
                     check_x2 = abs(cx_4 - next[0])
                     check_y2 = abs(cy_4 - next[1])
 
-                # j += 1
+                j += 1
             f4 = True
 
         if(len(shapes_1['Circle']) != 0):
@@ -411,18 +406,14 @@ def main(rec_client_id):
                 init += 1
 
             j = 1
-            destination_cell = [t1_end[1]*80, t1_end[0]*80]
+            destination_cell = [pixel_path_1[len(pixel_path_1)-1][1], pixel_path_1[len(pixel_path_1)-1][0]]
 
             while not(check_x1 <= 40 and check_y1 <= 40) and j < len(pixel_path_1):
 
                 next = [pixel_path_1[j][1], pixel_path_1[j][0]]
-                counter = 0
 
                 if next != destination_cell:
                     while (next[0] == pixel_path_1[j-1][1] and next[0] == pixel_path_1[j+1][1]) or (next[1] == pixel_path_1[j-1][0] and next[1] == pixel_path_1[j+1][0]):
-                        counter += 1
-                        if counter > 2:
-                            break
 
                         j += 1
                         next = [pixel_path_1[j][1], pixel_path_1[j][0]]
@@ -431,7 +422,6 @@ def main(rec_client_id):
                             break
 
                 task_3.change_setpoint(next)
-                j += 1
 
                 check_x2 = abs(cx_1 - next[0])
                 check_y2 = abs(cy_1 - next[1])
@@ -463,7 +453,7 @@ def main(rec_client_id):
                     check_x2 = abs(cx_1 - next[0])
                     check_y2 = abs(cy_1 - next[1])
 
-                #j += 1
+                j += 1
 
     task_2a.stop_simulation()
 

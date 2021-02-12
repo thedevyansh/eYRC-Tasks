@@ -196,7 +196,7 @@ def control_logic(center_x, center_y, tag):
     inputX = center_x
     inputY = center_y
 
-    print(setpoint, center_x, center_y)
+    #print(setpoint, center_x, center_y)
     #print(x_motors1[tag], x_motors2[tag], y_motors1[tag], y_motors2[tag])
     current_time = int(round(time.time() * 1000))
     timeChange = 1
