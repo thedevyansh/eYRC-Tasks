@@ -263,6 +263,8 @@ def main(rec_client_id):
         client_id, 'vision_sensor_1', sim.simx_opmode_blocking)
     return_code, vision_sensor_4 = sim.simxGetObjectHandle(
         client_id, 'vision_sensor_4', sim.simx_opmode_blocking)
+    return_code, vision_sensor_5 = sim.simxGetObjectHandle(
+        client_id, 'vision_sensor_5', sim.simx_opmode_blocking)
 
     """Defining start and end coords for the different tables"""
     t1_start = (5, 0)
@@ -274,10 +276,15 @@ def main(rec_client_id):
     path_1 = task_4a.find_path(maze_array_1, t1_start, t1_end)
     path_4 = task_4a.find_path(maze_array_4, t4_start, t4_end)
 
-    send_data_to_draw_path(client_id, path_4)
+    #send_data_to_draw_path(client_id, path_4)
 
     pixel_path_1 = convert_path_to_pixels(path_1)
     pixel_path_4 = convert_path_to_pixels(path_4)
+
+    """Setting up the streams for all vision sensor images"""
+    sim.simxGetVisionSensorImage(client_id, vision_sensor_1, 0, sim.simx_opmode_streaming)
+    sim.simxGetVisionSensorImage(client_id, vision_sensor_4, 0, sim.simx_opmode_streaming)
+    sim.simxGetVisionSensorImage(client_id, vision_sensor_5, 0, sim.simx_opmode_streaming)
 
     """Retrieving vision sensor images"""
     vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(
@@ -304,18 +311,23 @@ def main(rec_client_id):
 
     flag = True
     f4 = False
+    f5 = True
     while(flag):
 
         vision_sensor_image_1, image_resolution_1, return_code = task_2a.get_vision_sensor_image(
             vision_sensor_1)
         vision_sensor_image_4, image_resolution_4, return_code = task_2a.get_vision_sensor_image(
             vision_sensor_4)
+        vision_sensor_image_5, image_resolution_5, return_code = task_2a.get_vision_sensor_image(
+            vision_sensor_5)
 
         """#Transforming image"""
         transformed_image_1 = task_2a.transform_vision_sensor_image(
             vision_sensor_image_1, image_resolution_1)
         transformed_image_4 = task_2a.transform_vision_sensor_image(
             vision_sensor_image_4, image_resolution_4)
+        transformed_image_5 = task_2a.transform_vision_sensor_image(
+            vision_sensor_image_5, image_resolution_5)
 
         """Warping transformed image"""
         warped_img_1 = task_1b.applyPerspectiveTransform(transformed_image_1)
@@ -324,6 +336,11 @@ def main(rec_client_id):
         """Extracting ball positions from image"""
         shapes_1 = task_1a_part1.scan_image(warped_img_1)
         shapes_4 = task_1a_part1.scan_image(warped_img_4)
+        shapes_5 = task_1a_part1.scan_image(transformed_image_5)
+
+        if(len(shapes_5['Circle']) != 0 and f5 == True):
+            send_data_to_draw_path(client_id, path_4)
+            f5 = False
 
         if(len(shapes_4['Circle']) != 0 and f4 == False):
 

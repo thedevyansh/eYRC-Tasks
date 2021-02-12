@@ -185,7 +185,7 @@ def get_vision_sensor_image(vision_sensor_handle):
 
 	##############	ADD YOUR CODE HERE	##############
 
-	sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 0, sim.simx_opmode_streaming)
+	#sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 0, sim.simx_opmode_streaming)
 
 	while sim.simxGetConnectionId(client_id) != -1:
 		return_code, image_resolution, vision_sensor_image = sim.simxGetVisionSensorImage(client_id, vision_sensor_handle, 0, sim.simx_opmode_buffer)
