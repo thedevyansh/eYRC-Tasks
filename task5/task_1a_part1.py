@@ -131,7 +131,7 @@ def scan_image(original_img):
 
     hsv = cv2.cvtColor(original_img, cv2.COLOR_BGR2HSV)
 
-    lower_bound = np.array([25,20,20])
+    lower_bound = np.array([30,20,20])
     upper_bound = np.array([86,255,255])
 
     mask = cv2.inRange(hsv, lower_bound, upper_bound)
@@ -149,10 +149,10 @@ def scan_image(original_img):
 
     for cnt in contours:
 
-        if cv2.contourArea(cnt) > (0.995 * width * height): #this is used to exclude parent element from being considered as a contour
+        if cv2.contourArea(cnt) > (0.995 * width * height) or cv2.contourArea(cnt) < 50: #this is used to exclude parent element from being considered as a contour
             continue
         #approx = cv2.approxPolyDP(cnt, 0.01 * cv2.arcLength(cnt, True), True)
-        #print(cv2.contourArea(cnt))
+        ar = cv2.contourArea(cnt)
         #print(cv2.contourArea(cnt))
         x, y, w, h = cv2.boundingRect(cnt)
 
@@ -164,7 +164,7 @@ def scan_image(original_img):
         #cy = int(M['m01']/M['m00'])
 
         shape_color = detect_shape_color(original_img, cx, cy)
-        shapelist.append([shape_color, cx, cy])
+        shapelist.append([shape_color, cx, cy, ar])
     
     #cv2.drawContours(original_img, contours, -1, (0, 0, 255), 5)
     #cv2.imshow("ret", original_img)

@@ -181,7 +181,7 @@ def convert_path_to_pixels(path):
     return pixel_path
 
 
-def send_data_to_draw_path(rec_client_id, path):
+def send_data_to_draw_path(rec_client_id, path, tag):
     client_id = rec_client_id
 
     coppelia_sim_coord_path = []
@@ -191,9 +191,10 @@ def send_data_to_draw_path(rec_client_id, path):
             coppelia_sim_coord_path.append(((10*element) - 45)/100)
 
     inputBuffer = bytearray()
+    table = 'top_plate_respondable_t' + str(tag) + '_1'
 
     return_code, retInts, retFloats, retStrings, retBuffer = sim.simxCallScriptFunction(client_id,
-                                                                                        'top_plate_respondable_t4_1', sim.sim_scripttype_customizationscript, 'drawPath', [],
+                                                                                        table, sim.sim_scripttype_customizationscript, 'drawPath', [],
                                                                                         coppelia_sim_coord_path, [], inputBuffer, sim.simx_opmode_blocking)
 
 ##############################################################
@@ -339,7 +340,7 @@ def main(rec_client_id):
         shapes_5 = task_1a_part1.scan_image(transformed_image_5)
 
         if(len(shapes_5['Circle']) != 0 and f5 == True):
-            send_data_to_draw_path(client_id, path_4)
+            send_data_to_draw_path(client_id, path_4, 4)
             f5 = False
 
         if(len(shapes_4['Circle']) != 0 and f4 == False):
